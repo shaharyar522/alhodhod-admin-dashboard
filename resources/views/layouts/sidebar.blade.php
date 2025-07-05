@@ -1,0 +1,59 @@
+<aside class="sidebar">
+    <div class="brand">
+        <div class="brand-logo">
+            <i class="fa-solid fa-mosque floating-icon"></i>
+            <i class="fa-solid fa-dove floating-icon brand-icon"></i>
+        </div>
+        <span>Alhodhod</span>
+    </div>
+    <ul class="nav">
+        <li>
+            <a href="{{route('home')}}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                <i class="fa-solid fa-kaaba"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li>
+            <a href="{{route('pages.index')}}" class="nav-link">
+                <i class="fa-solid fa-file"></i>
+                <span>Pages</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link">
+                <i class="fa-solid fa-bars-staggered"></i>
+                <span>Menus</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link">
+                <i class="fa-solid fa-star-and-crescent"></i>
+                <span>Articles</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link">
+                <i class="fa-solid fa-images"></i>
+                <span>Article Images</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link">
+                <i class="fa-solid fa-hands-praying"></i>
+                <span>Contact Us</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link">
+                <i class="fa-solid fa-envelope-open-text"></i>
+                <span>Contact Messages</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="nav-link">
+                <i class="fa-solid fa-tags"></i>
+                <span>Meta Tags</span>
+            </a>
+        </li>
+    </ul>
+</aside>
