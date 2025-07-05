@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\Page;
 use Illuminate\Http\Request;
 
 class MenuController extends Controller
@@ -12,7 +13,8 @@ class MenuController extends Controller
      */
     public function index()
     {
-        //
+        $menus = Menu::with('page')->get();
+        return view('menus.index', compact('menus'));
     }
 
     /**
@@ -20,7 +22,8 @@ class MenuController extends Controller
      */
     public function create()
     {
-        //
+        $pages = Page::all();
+        return view('menus.create', compact('pages'));
     }
 
     /**
@@ -28,7 +31,26 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'page_id' => 'nullable|exists:pages,id',
+            'menu_title' => 'required|string|max:255',
+            'menu_english' => 'required|string|max:255',
+            'menu_french' => 'required|string|max:255',
+            'menu_arabic' => 'required|string|max:255',
+        ]);
+
+        try {
+            Menu::create([
+                'page_id' => $request->page_id,
+                'menu_title' => $request->menu_title,
+                'menu_en' => $request->menu_english,
+                'menu_fr' => $request->menu_french,
+                'menu_ar' => $request->menu_arabic,
+            ]);
+            return redirect()->route('menus.index')->with('success', 'Menu created successfully!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Failed to create menu');
+        }
     }
 
     /**
@@ -36,7 +58,7 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
-        //
+        return view('menus.show', compact('menu'));
     }
 
     /**
@@ -44,7 +66,8 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        //
+        $pages = Page::all();
+        return view('menus.edit', compact('menu', 'pages'));
     }
 
     /**
@@ -52,7 +75,23 @@ class MenuController extends Controller
      */
     public function update(Request $request, Menu $menu)
     {
-        //
+        $request->validate([
+            'page_id' => 'nullable|exists:pages,id',
+            'menu_title' => 'required|string|max:255',
+            'menu_english' => 'required|string|max:255',
+            'menu_french' => 'required|string|max:255',
+            'menu_arabic' => 'required|string|max:255',
+        ]);
+
+        $menu->update([
+            'page_id' => $request->page_id,
+            'menu_title' => $request->menu_title,
+            'menu_en' => $request->menu_english,
+            'menu_fr' => $request->menu_french,
+            'menu_ar' => $request->menu_arabic,
+        ]);
+
+        return redirect()->route('menus.index')->with('success', 'Menu updated successfully!');
     }
 
     /**
@@ -60,6 +99,7 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
-        //
+        $menu->delete();
+        return redirect()->route('menus.index')->with('success', 'Menu deleted successfully!');
     }
 }

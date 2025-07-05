@@ -7,22 +7,23 @@
     <div class="page-wrapper">
         <div class="form-container">
             <div class="form-header">
-                <h2>Create New Page</h2>
-                <p>Add a new page to your website</p>
+                <h2>Edit Page</h2>
+                <p>Update your existing page</p>
             </div>
 
-            <form action="{{ route('pages.store') }}" method="POST" class="page-form">
+            <form action="{{route('pages.update',$pages->id)}}" method="POST" class="page-form">
                 @csrf
+                @method('PUT')
                 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="page_name">Page Name</label>
-                        <input type="text" id="page_name" name="page_name" class="form-input" placeholder="Enter page name" required>
+                        <input type="text" id="page_name" name="page_name" value="{{ $pages->page_name }}" class="form-input" placeholder="Enter page name" required>
                     </div>
 
                     <div class="form-group">
                         <label for="page_link">Page Link</label>
-                        <input type="text" id="page_link" name="page_link" class="form-input" placeholder="Enter page link" required>
+                        <input type="text" id="page_link" name="page_link" value="{{ $pages->page_link }}" class="form-input" placeholder="Enter page link" required>
                     </div>
                 </div>
 
@@ -32,7 +33,7 @@
                             <span>English </span>
                             <span class="lang-badge">EN</span>
                         </label>
-                        <input type="text" id="page_en" name="page_english" class="form-input" placeholder="Enter English content" required>
+                        <input type="text" id="page_en" name="page_english" value="{{ $pages->page_en }}" class="form-input" placeholder="Enter English content" required>
                     </div>
 
                     <div class="form-group">
@@ -40,7 +41,7 @@
                             <span>French </span>
                             <span class="lang-badge">FR</span>
                         </label>
-                        <input type="text" id="page_fr" name="page_french" class="form-input" placeholder="Entrez le contenu en français" required>
+                        <input type="text" id="page_fr" name="page_french" value="{{ $pages->page_fr }}" class="form-input" placeholder="Entrez le contenu en français" required>
                     </div>
 
                     <div class="form-group">
@@ -48,23 +49,16 @@
                             <span>Arabic </span>
                             <span class="lang-badge">AR</span>
                         </label>
-                        <input type="text" id="page_ar" name="page_arabic" class="form-input" placeholder="أدخل المحتوى بالعربية" required>
+                        <input type="text" id="page_ar" name="page_arabic" value="{{ $pages->page_ar }}" class="form-input" placeholder="أدخل المحتوى بالعربية" required>
                     </div>
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="submit-btn" onclick="return confirmCreate('page')">
+                    <button type="submit" class="submit-btn" onclick="return confirmUpdate('{{ $pages->page_name }}', 'page')">
                         <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
-                        <span>Create Page</span>
-                    </button>
-                    
-                    <button type="reset" class="reset-btn">
-                        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                        </svg>
-                        <span>Reset Form</span>
+                        <span>Update Page</span>
                     </button>
                 </div>
             </form>
@@ -73,11 +67,11 @@
 
     <script>
     // Form submission with Global SweetAlert
-    function confirmCreate(itemType) {
-        GlobalSweetAlert.createConfirm(itemType).then((result) => {
+    function confirmUpdate(itemName, itemType) {
+        GlobalSweetAlert.updateConfirm(itemName, itemType).then((result) => {
             if (result.isConfirmed) {
                 // Show loading message
-                GlobalSweetAlert.loading(`Creating ${itemType}...`, 'Please wait');
+                GlobalSweetAlert.loading(`Updating ${itemType}...`, 'Please wait');
                 
                 // Submit the form
                 document.querySelector('.page-form').submit();

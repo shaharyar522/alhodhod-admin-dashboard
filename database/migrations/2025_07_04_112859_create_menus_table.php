@@ -13,7 +13,14 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->unsignedBigInteger('page_id')->nullable();
+            $table->string('menu_title')->nullable();
+            $table->string('menu_en')->nullable();
+            $table->string('menu_fr')->nullable();
+            $table->string('menu_ar')->nullable();
+            $table->timestamps(); 
+
+            $table->foreign('page_id')->references('id')->on('pages')->cascadeOnDelete();
         });
     }
 

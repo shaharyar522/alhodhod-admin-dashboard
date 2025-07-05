@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('page_name');
+            $table->string('page_link');
+            $table->text('page_en')->nullable();
+            $table->text('page_fr')->nullable();
+            $table->text('page_ar')->nullable();
+            $table->timestamps(); // adds created_at & updated_at
         });
     }
 

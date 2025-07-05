@@ -20,7 +20,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link">
+            <a href="{{route('menus.index')}}" class="nav-link">
                 <i class="fa-solid fa-bars-staggered"></i>
                 <span>Menus</span>
             </a>
