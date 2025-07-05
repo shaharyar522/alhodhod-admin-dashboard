@@ -21,19 +21,7 @@ Route::delete('/pages/{id}/delete', [PageController::class, 'destroy'])->name('p
 //working on menus
 Route::get('/menus' , [MenuController::class , 'index'])->name('menus.index');
 Route::get('/menus/create' , [MenuController::class, 'create'])->name('menus.create');
-Route::post('/menus' , [MenuController::class, 'sotore'])->name('menus.store');
-
-
-
-
-
-
-
-
-
-
-
-
+Route::post('/menus' , [MenuController::class, 'store'])->name('menus.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

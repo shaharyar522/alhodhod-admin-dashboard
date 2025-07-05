@@ -14,6 +14,8 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <!-- Custom Dashboard Styles -->
   <link rel="stylesheet" href="{{ asset('styling/dashboard.css')}}">
+  <!-- Global Action Buttons CSS -->
+  <link rel="stylesheet" href="{{ asset('styling/action-buttons.css')}}">
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>

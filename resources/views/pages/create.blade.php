@@ -11,7 +11,7 @@
                 <p>Add a new page to your website</p>
             </div>
 
-            <form action="{{ route('pages.store') }}" method="POST" class="page-form">
+            <form action="{{ route('pages.store') }}" method="POST" class="page-form" onsubmit="return confirmCreate()" enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 
                 <div class="form-row">
@@ -29,7 +29,7 @@
                 <div class="form-row languages">
                     <div class="form-group">
                         <label for="page_en">
-                            <span>English </span>
+                            <span>Page English </span>
                             <span class="lang-badge">EN</span>
                         </label>
                         <input type="text" id="page_en" name="page_english" class="form-input" placeholder="Enter English content" required>
@@ -37,7 +37,7 @@
 
                     <div class="form-group">
                         <label for="page_fr">
-                            <span>French </span>
+                            <span>Page French </span>
                             <span class="lang-badge">FR</span>
                         </label>
                         <input type="text" id="page_fr" name="page_french" class="form-input" placeholder="Entrez le contenu en français" required>
@@ -45,15 +45,15 @@
 
                     <div class="form-group">
                         <label for="page_ar">
-                            <span>Arabic </span>
+                            <span>Page Arabic </span>
                             <span class="lang-badge">AR</span>
                         </label>
-                        <input type="text" id="page_ar" name="page_arabic" class="form-input" placeholder="أدخل المحتوى بالعربية" required>
+                        <input type="text" id="page_ar" name="page_arabic" class="form-input arabic-input" placeholder="أدخل المحتوى بالعربية" required style="direction: rtl; text-align: right;">
                     </div>
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="submit-btn" onclick="return confirmCreate('page')">
+                    <button type="submit" class="submit-btn">
                         <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
@@ -71,19 +71,96 @@
         </div>
     </div>
 
+    <!-- Create Confirmation Script -->
     <script>
-    // Form submission with Global SweetAlert
-    function confirmCreate(itemType) {
-        GlobalSweetAlert.createConfirm(itemType).then((result) => {
-            if (result.isConfirmed) {
-                // Show loading message
-                GlobalSweetAlert.loading(`Creating ${itemType}...`, 'Please wait');
-                
-                // Submit the form
-                document.querySelector('.page-form').submit();
+        function confirmCreate() {
+            // Show confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Are you sure you want to create this page?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#10b981',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Create',
+                cancelButtonText: 'Cancel',
+                background: '#f0f8ff'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Show processing message
+                    Swal.fire({
+                        title: 'Creating...',
+                        text: 'Please wait while we create the page...',
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        background: '#f0f8ff',
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                    
+                    // Submit the form
+                    document.querySelector('.page-form').submit();
+                }
+            });
+            
+            // Prevent form submission until confirmed
+            return false;
+        }
+
+        // Arabic text detection and RTL switching
+        document.addEventListener('DOMContentLoaded', function() {
+            const arabicInput = document.getElementById('page_ar');
+            
+            // Function to detect Arabic characters
+            function isArabic(text) {
+                const arabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+                return arabicRegex.test(text);
             }
+            
+            // Function to switch text direction
+            function switchDirection(input) {
+                const text = input.value;
+                if (text.length > 0) {
+                    if (isArabic(text)) {
+                        input.style.direction = 'rtl';
+                        input.style.textAlign = 'right';
+                    } else {
+                        input.style.direction = 'ltr';
+                        input.style.textAlign = 'left';
+                    }
+                } else {
+                    // If empty, keep RTL for Arabic input
+                    input.style.direction = 'rtl';
+                    input.style.textAlign = 'right';
+                }
+            }
+            
+            // Set initial RTL direction for Arabic input
+            arabicInput.style.direction = 'rtl';
+            arabicInput.style.textAlign = 'right';
+            
+            // Listen for input changes
+            arabicInput.addEventListener('input', function() {
+                switchDirection(this);
+            });
+            
+            // Listen for keyup events (for real-time detection)
+            arabicInput.addEventListener('keyup', function() {
+                switchDirection(this);
+            });
+            
+            // Check on focus
+            arabicInput.addEventListener('focus', function() {
+                switchDirection(this);
+            });
+            
+            // Check on blur
+            arabicInput.addEventListener('blur', function() {
+                switchDirection(this);
+            });
         });
-        return false; // Prevent default form submission
-    }
     </script>
 @endsection

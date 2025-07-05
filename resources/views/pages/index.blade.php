@@ -24,9 +24,9 @@
                         <th>ID</th>
                         <th>Page Name</th>
                         <th>Page Link</th>
-                        <th>English</th>
-                        <th>French</th>
-                        <th>Arabic</th>
+                        <th>Page English</th>
+                        <th>Page French</th>
+                        <th>Page Arabic</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -47,12 +47,18 @@
                                     </svg>
                                     <span>Edit</span>
                                 </a>
-                                <button type="button" class="delete-btn" onclick="deletePageWithConfirm({{ $page->id }}, '{{ $page->page_name }}')">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                    </svg>
-                                    <span>Delete</span>
-                                </button>
+                                
+                                <form action="{{ route('pages.destroy', $page->id) }}" method="POST" class="delete-form" style="display: inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="delete-btn" onclick="confirmDelete(this)">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                        <span>Delete</span>
+                                    </button>
+                                </form>
+
                             </div>
                         </td>
                     </tr>
@@ -62,91 +68,38 @@
         </div>
     </div>
 
-    <!-- Global SweetAlert Script -->
-    <script src="{{ asset('js/global-sweetalert.js') }}"></script>
-
+    <!-- Delete Confirmation Script -->
     <script>
-    // Delete page with confirmation and redirect
-    function deletePageWithConfirm(pageId, pageName) {
-        GlobalSweetAlert.deleteConfirm(pageName, 'page').then((result) => {
-            if (result.isConfirmed) {
-                // Show loading message
-                GlobalSweetAlert.loading('Deleting page...', 'Please wait');
-                
-                // Create and submit form
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = "{{ route('pages.destroy', ':id') }}".replace(':id', pageId);
-                form.style.display = 'none';
-                
-                const csrfToken = document.createElement('input');
-                csrfToken.type = 'hidden';
-                csrfToken.name = '_token';
-                csrfToken.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                
-                const methodField = document.createElement('input');
-                methodField.type = 'hidden';
-                methodField.name = '_method';
-                methodField.value = 'DELETE';
-                
-                form.appendChild(csrfToken);
-                form.appendChild(methodField);
-                document.body.appendChild(form);
-                
-                // Submit the form
-                form.submit();
-            }
-        });
-    }
+        function confirmDelete(button) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Are you sure you want to delete this?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel',
+                background: '#ffffff'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Show loading message
+                    Swal.fire({
+                        title: 'Deleting...',
+                        text: 'Deleting...',
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                    
+                    // Submit the form
+                    button.closest('form').submit();
+                }
+            });
+        }
     </script>
-
-    <style>
-    /* Custom styling for pages delete button */
-    .delete-btn {
-        color: #ef4444;
-        background: rgba(239, 68, 68, 0.1);
-        border: 1px solid rgba(239, 68, 68, 0.2);
-        padding: 0.4rem;
-        border-radius: 6px;
-        transition: all 0.2s ease;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        gap: 0.15rem;
-        position: relative;
-        overflow: hidden;
-        font-size: 0.65rem;
-        font-weight: 500;
-        width: 42px;
-        height: 42px;
-    }
-
-    .delete-btn:hover {
-        background: rgba(239, 68, 68, 0.15);
-        transform: translateY(-1px);
-        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
-    }
-
-    .delete-btn:active {
-        transform: translateY(1px);
-        box-shadow: none;
-    }
-
-    .delete-btn svg {
-        width: 14px;
-        height: 14px;
-        transition: transform 0.2s ease;
-    }
-
-    .delete-btn:hover svg {
-        transform: scale(1.1);
-    }
-
-    .delete-btn span {
-        display: block;
-        font-size: 0.6rem;
-        line-height: 1;
-    }
-    </style>
 @endsection

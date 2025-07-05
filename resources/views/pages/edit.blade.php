@@ -11,7 +11,7 @@
                 <p>Update your existing page</p>
             </div>
 
-            <form action="{{route('pages.update',$pages->id)}}" method="POST" class="page-form">
+            <form action="{{route('pages.update',$pages->id)}}" method="POST" class="page-form" onsubmit="return confirmUpdate()">
                 @csrf
                 @method('PUT')
                 
@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="submit-btn" onclick="return confirmUpdate('{{ $pages->page_name }}', 'page')">
+                    <button type="submit" class="submit-btn">
                         <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
@@ -65,19 +65,25 @@
         </div>
     </div>
 
+    <!-- Update Processing Script -->
     <script>
-    // Form submission with Global SweetAlert
-    function confirmUpdate(itemName, itemType) {
-        GlobalSweetAlert.updateConfirm(itemName, itemType).then((result) => {
-            if (result.isConfirmed) {
-                // Show loading message
-                GlobalSweetAlert.loading(`Updating ${itemType}...`, 'Please wait');
-                
-                // Submit the form
-                document.querySelector('.page-form').submit();
-            }
-        });
-        return false; // Prevent default form submission
-    }
+        function confirmUpdate() {
+            // Show processing message
+            Swal.fire({
+                title: 'Updating...',
+                text: 'Please wait while we update the page...',
+                icon: 'info',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                background: '#f0f8ff',
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
+            // Allow form to submit
+            return true;
+        }
     </script>
 @endsection
