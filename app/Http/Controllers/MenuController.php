@@ -14,7 +14,8 @@ class MenuController extends Controller
     public function index()
     {
         $menus = Menu::with('page')->get();
-        return view('menus.index', compact('menus'));
+        $pages = Page::all();
+        return view('menus.index', compact('menus', 'pages'));
     }
 
     /**

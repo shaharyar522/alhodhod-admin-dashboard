@@ -33,14 +33,18 @@
             </thead>
             <tbody>
 
+                @foreach ($menus as $menu)
 
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{ $menu->id }}</td>
+                    @foreach ($pages as $page)
+                    <td>{{ $page->page_name }}</td>
+                    @endforeach
+                    <td>{{ $menu->menu_title }}</td>
+                    <td>{{ $menu->menu_en }}</td>
+                    <td>{{ $menu->menu_fr }}</td>
+                    <td>{{ $menu->menu_ar }}</td>
+                   
                     <td>
                         <div class="action-buttons">
                             <a href="" class="edit-btn">
@@ -64,7 +68,7 @@
                         </div>
                     </td>
                 </tr>
-
+                @endforeach
             </tbody>
         </table>
     </div>

@@ -146,6 +146,7 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
+    table-layout: fixed;
 }
 
 .pages-table th {
@@ -157,6 +158,9 @@
     letter-spacing: 0.05em;
     padding: 1rem 1.5rem;
     border-bottom: 2px solid #e2e8f0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .pages-table td {
@@ -164,6 +168,64 @@
     color: #334155;
     font-size: 0.875rem;
     border-bottom: 1px solid #e2e8f0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 0;
+    white-space: normal;
+    vertical-align: top;
+}
+
+/* Specific column widths for better layout */
+.pages-table th:nth-child(1), 
+.pages-table td:nth-child(1) {
+    width: 60px;
+    min-width: 60px;
+    max-width: 60px;
+}
+
+.pages-table th:nth-child(2), 
+.pages-table td:nth-child(2) {
+    width: 15%;
+    min-width: 120px;
+}
+
+.pages-table th:nth-child(3), 
+.pages-table td:nth-child(3) {
+    width: 20%;
+    min-width: 150px;
+}
+
+.pages-table th:nth-child(4), 
+.pages-table td:nth-child(4),
+.pages-table th:nth-child(5), 
+.pages-table td:nth-child(5),
+.pages-table th:nth-child(6), 
+.pages-table td:nth-child(6) {
+    width: 15%;
+    min-width: 120px;
+}
+
+.pages-table th:nth-child(7), 
+.pages-table td:nth-child(7) {
+    width: 120px;
+    min-width: 120px;
+    max-width: 120px;
+}
+
+/* Handle long text in cells */
+.pages-table td {
+    position: relative;
+}
+
+.pages-table td:hover {
+    overflow: visible;
+    z-index: 10;
+}
+
+/* Only show tooltip if content is actually truncated */
+.pages-table td:not(:hover) {
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .pages-table tbody tr {
@@ -187,6 +249,8 @@
     gap: 0.5rem;
     justify-content: flex-start;
     align-items: center;
+    flex-wrap: nowrap;
+    min-width: 0;
 }
 
 .edit-btn, .delete-btn {
@@ -198,12 +262,8 @@
     justify-content: center;
     flex-direction: column;
     gap: 0.15rem;
-    position: relative;
-    overflow: hidden;
-    font-size: 0.65rem;
-    font-weight: 500;
-    width: 42px;
-    height: 42px;
+    flex-shrink: 0;
+    min-width: 0;
 }
 
 .edit-btn span, .delete-btn span {
@@ -256,27 +316,29 @@
     transform: scale(1.1);
 }
 
-/* Remove animations that were too heavy */
 .edit-btn::before, .delete-btn::before {
     display: none;
 }
 
-/* Empty State Styling */
 .empty-state {
     text-align: center;
-    padding: 3rem 1.5rem;
+    padding: 3rem;
     color: #64748b;
-    font-size: 0.875rem;
+    font-size: 1.1rem;
 }
 
-/* Responsive Design */
+/* Responsive design for tables */
 @media (max-width: 1024px) {
     .pages-container {
-        padding: 1rem;
+        padding: 1.5rem;
     }
     
     .pages-table-container {
         overflow-x: auto;
+    }
+    
+    .pages-table {
+        min-width: 800px;
     }
 }
 
@@ -284,10 +346,72 @@
     .pages-header {
         flex-direction: column;
         gap: 1rem;
-        align-items: flex-start;
+        align-items: stretch;
     }
     
     .pages-title {
+        text-align: center;
         font-size: 1.5rem;
+    }
+    
+    .add-page-btn {
+        justify-content: center;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .pages-table th,
+    .pages-table td {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.75rem;
+    }
+    
+    /* Adjust column widths for mobile */
+    .pages-table th:nth-child(1), 
+    .pages-table td:nth-child(1) {
+        width: 40px;
+        min-width: 40px;
+        max-width: 40px;
+    }
+    
+    .pages-table th:nth-child(2), 
+    .pages-table td:nth-child(2) {
+        width: 12%;
+        min-width: 80px;
+    }
+    
+    .pages-table th:nth-child(3), 
+    .pages-table td:nth-child(3) {
+        width: 18%;
+        min-width: 100px;
+    }
+    
+    .pages-table th:nth-child(4), 
+    .pages-table td:nth-child(4),
+    .pages-table th:nth-child(5), 
+    .pages-table td:nth-child(5),
+    .pages-table th:nth-child(6), 
+    .pages-table td:nth-child(6) {
+        width: 12%;
+        min-width: 80px;
+    }
+    
+    .pages-table th:nth-child(7), 
+    .pages-table td:nth-child(7) {
+        width: 100px;
+        min-width: 100px;
+        max-width: 100px;
+    }
+    
+    .action-buttons {
+        gap: 0.25rem;
+    }
+    
+    .edit-btn, .delete-btn {
+        padding: 0.3rem;
+    }
+    
+    .edit-btn span, .delete-btn span {
+        font-size: 0.6rem;
     }
 } 

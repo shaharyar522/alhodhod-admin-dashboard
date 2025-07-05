@@ -31,7 +31,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($Pages as $page)
+                    @foreach($pages as $page)
                     <tr>
                         <td>{{$page->id}}</td>
                         <td>{{$page->page_name}}</td>

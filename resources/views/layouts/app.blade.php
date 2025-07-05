@@ -36,6 +36,9 @@
   <!-- Global SweetAlert Configuration -->
   <script src="{{ asset('js/global-sweetalert.js') }}"></script>
 
+  {{-- this is the arabic input handler --}}
+  <script src="{{ asset('js/arabic-input-handler.js') }}"></script>
+
   <!-- Session Messages for SweetAlert -->
   @if(session('success'))
     <script>

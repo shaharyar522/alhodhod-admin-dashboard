@@ -12,8 +12,8 @@ class PageController extends Controller
      */
     public function index()
     {
-        $Pages = Page::get();
-        return view('pages.index', compact('Pages'));
+        $pages = Page::all();
+        return view('pages.index', compact('pages'));
     }
 
     /**
@@ -21,7 +21,7 @@ class PageController extends Controller
      */
     public function create()
     {
-        return view('pages.create');
+           return view('pages.create');
     }
 
     /**
@@ -29,6 +29,7 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
+
         $validated = $request->validate([
             'page_name'     => 'required|string|max:255',
             'page_link'     => 'required|string|max:255|unique:pages,page_link',
@@ -37,21 +38,16 @@ class PageController extends Controller
             'page_arabic'   => 'required|string',
         ]);
 
+        Page::create([
+            'page_name' => $request->page_name,
+            'page_link' => $request->page_link,
+            'page_en' => $request->page_english,
+            'page_fr' => $request->page_french,
+            'page_ar' => $request->page_arabic,
+        ]);
 
-        try {
-
-            Page::create([
-                'page_name' => $request->page_name,
-                'page_link' => $request->page_link,
-                'page_en' => $request->page_english,
-                'page_fr' => $request->page_french,
-                'page_ar' => $request->page_arabic,
-            ]);
-
-            return redirect()->route('pages.index')->with('success', 'Page created successfully!');
-        } catch (\Throwable $th) {
-            return back()->with('error', 'Something went wrong while creating the article.');
-        }
+        return redirect()->route('pages.index')->with('success', 'Page created successfully!');
+        
     }
 
     /**
@@ -67,8 +63,8 @@ class PageController extends Controller
      */
     public function edit($id)
     {
-        $pages = Page::find($id);
-        return view('pages.edit', compact('pages'));
+        $pages = Page::findOrFail($id);
+        return view('pages.edit_page', compact('pages'));
     }
 
     /**
@@ -78,20 +74,16 @@ class PageController extends Controller
     {
         $pages = Page::findorFail($id);
 
-        try {
 
-            $pages->page_name = $request->page_name;
-            $pages->page_link = $request->page_link;
-            $pages->page_en = $request->page_english;
-            $pages->page_fr = $request->page_french;
-            $pages->page_ar = $request->page_arabic;
-            $pages->save();
+        $pages->page_name = $request->page_name;
+        $pages->page_link = $request->page_link;
+        $pages->page_en = $request->page_english;
+        $pages->page_fr = $request->page_french;
+        $pages->page_ar = $request->page_arabic;
+        $pages->save();
 
 
-            return redirect()->route('pages.index')->with('success', 'Page updated successfully!');
-        } catch (\Throwable $th) {
-            return back()->with('error', 'Something went wrong while updating the page.');
-        }
+        return redirect()->route('pages.index')->with('success', 'Page updated successfully!');
     }
 
     /**
@@ -99,7 +91,8 @@ class PageController extends Controller
      */
     public function destroy($id)
     {
-         Page::destroy($id);
-          return redirect()->route('pages.index')->with('success', 'Page Deleted successfully!');
+        Page::destroy($id);
+
+        return redirect()->route('pages.index')->with('delete_success', 'Pages deleted successfully.');
     }
 }

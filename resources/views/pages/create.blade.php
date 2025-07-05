@@ -1,79 +1,87 @@
 @extends('layouts.app')
 
 @section('Main-content')
-    <!-- Add CSS Link -->
-    <link rel="stylesheet" href="{{ asset('styling/page-form.css') }}">
+<!-- Add CSS Link -->
+<link rel="stylesheet" href="{{ asset('styling/page-form.css') }}">
 
-    <div class="page-wrapper">
-        <div class="form-container">
-            <div class="form-header">
-                <h2>Create New Page</h2>
-                <p>Add a new page to your website</p>
+<div class="page-wrapper">
+    <div class="form-container">
+        <div class="form-header">
+            <h2>Create New Page</h2>
+            <p>Add a new page to your website</p>
+        </div>
+
+        <form action="{{ route('pages.store') }}" method="POST" class="page-form" onsubmit="return confirmCreate()"
+             autocomplete="off">
+            @csrf
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="page_name">Page Name</label>
+                    <input type="text" id="page_name" name="page_name" class="form-input" placeholder="Enter page name"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="page_link">Page Link</label>
+                    <input type="text" id="page_link" name="page_link" class="form-input" placeholder="Enter page link"
+                        required>
+                </div>
             </div>
 
-            <form action="{{ route('pages.store') }}" method="POST" class="page-form" onsubmit="return confirmCreate()" enctype="multipart/form-data" autocomplete="off">
-                @csrf
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="page_name">Page Name</label>
-                        <input type="text" id="page_name" name="page_name" class="form-input" placeholder="Enter page name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="page_link">Page Link</label>
-                        <input type="text" id="page_link" name="page_link" class="form-input" placeholder="Enter page link" required>
-                    </div>
+            <div class="form-row languages">
+                <div class="form-group">
+                    <label for="page_en">
+                        <span>Page English </span>
+                        <span class="lang-badge">EN</span>
+                    </label>
+                    <input type="text" id="page_en" name="page_english" class="form-input"
+                        placeholder="Enter English content" required>
                 </div>
 
-                <div class="form-row languages">
-                    <div class="form-group">
-                        <label for="page_en">
-                            <span>Page English </span>
-                            <span class="lang-badge">EN</span>
-                        </label>
-                        <input type="text" id="page_en" name="page_english" class="form-input" placeholder="Enter English content" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="page_fr">
-                            <span>Page French </span>
-                            <span class="lang-badge">FR</span>
-                        </label>
-                        <input type="text" id="page_fr" name="page_french" class="form-input" placeholder="Entrez le contenu en français" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="page_ar">
-                            <span>Page Arabic </span>
-                            <span class="lang-badge">AR</span>
-                        </label>
-                        <input type="text" id="page_ar" name="page_arabic" class="form-input arabic-input" placeholder="أدخل المحتوى بالعربية" required style="direction: rtl; text-align: right;">
-                    </div>
+                <div class="form-group">
+                    <label for="page_fr">
+                        <span>Page French </span>
+                        <span class="lang-badge">FR</span>
+                    </label>
+                    <input type="text" id="page_fr" name="page_french" class="form-input"
+                        placeholder="Entrez le contenu en français" required>
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" class="submit-btn">
-                        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                        </svg>
-                        <span>Create Page</span>
-                    </button>
-                    
-                    <button type="reset" class="reset-btn">
-                        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                        </svg>
-                        <span>Reset Form</span>
-                    </button>
+                <div class="form-group">
+                    <label for="page_ar">
+                        <span>Page Arabic </span>
+                        <span class="lang-badge">AR</span>
+                    </label>
+                    <input type="text" id="page_ar" name="page_arabic" class="form-input arabic-input"
+                        placeholder="أدخل المحتوى بالعربية" required style="direction: rtl; text-align: right;">
                 </div>
-            </form>
-        </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="submit-btn">
+                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>Create Page</span>
+                </button>
+
+                <button type="reset" class="reset-btn">
+                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                        </path>
+                    </svg>
+                    <span>Reset Form</span>
+                </button>
+            </div>
+        </form>
     </div>
+</div>
 
-    <!-- Create Confirmation Script -->
-    <script>
-        function confirmCreate() {
+<!-- Create Confirmation Script -->
+<script>
+    function confirmCreate() {
             // Show confirmation dialog
             Swal.fire({
                 title: 'Are you sure?',
@@ -110,57 +118,5 @@
             return false;
         }
 
-        // Arabic text detection and RTL switching
-        document.addEventListener('DOMContentLoaded', function() {
-            const arabicInput = document.getElementById('page_ar');
-            
-            // Function to detect Arabic characters
-            function isArabic(text) {
-                const arabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
-                return arabicRegex.test(text);
-            }
-            
-            // Function to switch text direction
-            function switchDirection(input) {
-                const text = input.value;
-                if (text.length > 0) {
-                    if (isArabic(text)) {
-                        input.style.direction = 'rtl';
-                        input.style.textAlign = 'right';
-                    } else {
-                        input.style.direction = 'ltr';
-                        input.style.textAlign = 'left';
-                    }
-                } else {
-                    // If empty, keep RTL for Arabic input
-                    input.style.direction = 'rtl';
-                    input.style.textAlign = 'right';
-                }
-            }
-            
-            // Set initial RTL direction for Arabic input
-            arabicInput.style.direction = 'rtl';
-            arabicInput.style.textAlign = 'right';
-            
-            // Listen for input changes
-            arabicInput.addEventListener('input', function() {
-                switchDirection(this);
-            });
-            
-            // Listen for keyup events (for real-time detection)
-            arabicInput.addEventListener('keyup', function() {
-                switchDirection(this);
-            });
-            
-            // Check on focus
-            arabicInput.addEventListener('focus', function() {
-                switchDirection(this);
-            });
-            
-            // Check on blur
-            arabicInput.addEventListener('blur', function() {
-                switchDirection(this);
-            });
-        });
-    </script>
+</script>
 @endsection

@@ -40,7 +40,7 @@
                 <div class="form-row languages">
                     <div class="form-group">
                         <label for="menu_en">
-                            <span>English </span>
+                            <span> English Menu </span>
                             <span class="lang-badge">EN</span>
                         </label>
                         <input type="text" id="menu_en" name="menu_english" class="form-input" placeholder="Menu in English">
@@ -51,7 +51,7 @@
 
                     <div class="form-group">
                         <label for="menu_fr">
-                            <span>French </span>
+                            <span> French Menu </span>
                             <span class="lang-badge">FR</span>
                         </label>
                         <input type="text" id="menu_fr" name="menu_french" class="form-input" placeholder="Menu en Français">
@@ -62,7 +62,7 @@
 
                     <div class="form-group">
                         <label for="menu_ar">
-                            <span>Arabic </span>
+                            <span> Arabic Menu </span>
                             <span class="lang-badge">AR</span>
                         </label>
                         <input type="text" id="menu_ar" name="menu_arabic" class="form-input" dir="rtl" placeholder="القائمة بالعربية">
@@ -91,19 +91,44 @@
         </div>
     </div>
 
-    <script>
-    // Form submission with Global SweetAlert
-    function confirmCreate(itemType) {
-        GlobalSweetAlert.createConfirm(itemType).then((result) => {
-            if (result.isConfirmed) {
-                // Show loading message
-                GlobalSweetAlert.loading(`Creating ${itemType}...`, 'Please wait');
-                
-                // Submit the form
-                document.querySelector('.page-form').submit();
-            }
-        });
-        return false; // Prevent default form submission
-    }
-    </script>
+   <!-- Create Confirmation Script -->
+<script>
+    function confirmCreate() {
+            // Show confirmation dialog
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Are you sure you want to create this Menu?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#10b981',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Create',
+                cancelButtonText: 'Cancel',
+                background: '#f0f8ff'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Show processing message
+                    Swal.fire({
+                        title: 'Creating...',
+                        text: 'Please wait while we create the page...',
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        background: '#f0f8ff',
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                    
+                    // Submit the form
+                    document.querySelector('.page-form').submit();
+                }
+            });
+            
+            // Prevent form submission until confirmed
+            return false;
+        }
+
+</script>
 @endsection
