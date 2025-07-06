@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use App\Models\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
@@ -13,9 +15,14 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menus = Menu::with('page')->get();
-        $pages = Page::all();
-        return view('menus.index', compact('menus', 'pages'));
+        try {
+            $menus = Menu::with('page')->get();
+            $pages = Page::all();
+            return view('menus.index', compact('menus', 'pages'));
+        } catch (\Exception $e) {
+            Log::error('Menu index error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to load menus');
+        }
     }
 
     /**
@@ -23,8 +30,13 @@ class MenuController extends Controller
      */
     public function create()
     {
-        $pages = Page::all();
-        return view('menus.create', compact('pages'));
+        try {
+            $pages = Page::all();
+            return view('menus.create', compact('pages'));
+        } catch (\Exception $e) {
+            Log::error('Menu create error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to load create form');
+        }
     }
 
     /**
@@ -32,25 +44,40 @@ class MenuController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        // Validate the request
+        $validated = $request->validate([
             'page_id' => 'nullable|exists:pages,id',
             'menu_title' => 'required|string|max:255',
-            'menu_english' => 'required|string|max:255',
-            'menu_french' => 'required|string|max:255',
-            'menu_arabic' => 'required|string|max:255',
+            'menu_en' => 'required|string|max:255',
+            'menu_fr' => 'required|string|max:255',
+            'menu_ar' => 'required|string|max:255',
         ]);
 
         try {
-            Menu::create([
+            DB::beginTransaction();
+            
+            $menu = Menu::create([
                 'page_id' => $request->page_id,
                 'menu_title' => $request->menu_title,
-                'menu_en' => $request->menu_english,
-                'menu_fr' => $request->menu_french,
-                'menu_ar' => $request->menu_arabic,
+                'menu_en' => $request->menu_en,
+                'menu_fr' => $request->menu_fr,
+                'menu_ar' => $request->menu_ar,
             ]);
+
+            DB::commit();
+            
+            Log::info('Menu created successfully', ['menu_id' => $menu->id, 'title' => $menu->menu_title]);
             return redirect()->route('menus.index')->with('success', 'Menu created successfully!');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Failed to create menu');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Menu creation failed: ' . $e->getMessage(), [
+                'request_data' => $request->all(),
+                'validation_errors' => $request->validator->errors() ?? 'No validation errors'
+            ]);
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to create menu. Please try again.');
         }
     }
 
@@ -67,8 +94,13 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        $pages = Page::all();
-        return view('menus.edit', compact('menu', 'pages'));
+        try {
+            $pages = Page::all();
+            return view('menus.edit', compact('menu', 'pages'));
+        } catch (\Exception $e) {
+            Log::error('Menu edit error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to load edit form');
+        }
     }
 
     /**
@@ -76,23 +108,42 @@ class MenuController extends Controller
      */
     public function update(Request $request, Menu $menu)
     {
-        $request->validate([
+        // Validate the request
+        $validated = $request->validate([
             'page_id' => 'nullable|exists:pages,id',
             'menu_title' => 'required|string|max:255',
-            'menu_english' => 'required|string|max:255',
-            'menu_french' => 'required|string|max:255',
-            'menu_arabic' => 'required|string|max:255',
+            'menu_en' => 'required|string|max:255',
+            'menu_fr' => 'required|string|max:255',
+            'menu_ar' => 'required|string|max:255',
         ]);
 
-        $menu->update([
-            'page_id' => $request->page_id,
-            'menu_title' => $request->menu_title,
-            'menu_en' => $request->menu_english,
-            'menu_fr' => $request->menu_french,
-            'menu_ar' => $request->menu_arabic,
-        ]);
+        try {
+            DB::beginTransaction();
+            
+            $menu->update([
+                'page_id' => $request->page_id,
+                'menu_title' => $request->menu_title,
+                'menu_en' => $request->menu_en,
+                'menu_fr' => $request->menu_fr,
+                'menu_ar' => $request->menu_ar,
+            ]);
 
-        return redirect()->route('menus.index')->with('success', 'Menu updated successfully!');
+            DB::commit();
+            
+            Log::info('Menu updated successfully', ['menu_id' => $menu->id, 'title' => $menu->menu_title]);
+            return redirect()->route('menus.index')->with('success', 'Menu updated successfully!');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Menu update failed: ' . $e->getMessage(), [
+                'menu_id' => $menu->id,
+                'request_data' => $request->all(),
+                'validation_errors' => $request->validator->errors() ?? 'No validation errors'
+            ]);
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to update menu. Please try again.');
+        }
     }
 
     /**
@@ -100,7 +151,21 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
-        $menu->delete();
-        return redirect()->route('menus.index')->with('success', 'Menu deleted successfully!');
+        try {
+            DB::beginTransaction();
+            
+            $menuTitle = $menu->menu_title;
+            $menu->delete();
+            
+            DB::commit();
+            
+            Log::info('Menu deleted successfully', ['menu_title' => $menuTitle]);
+            return redirect()->route('menus.index')->with('success', 'Menu deleted successfully!');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Menu deletion failed: ' . $e->getMessage(), ['menu_id' => $menu->id]);
+            return redirect()->back()->with('error', 'Failed to delete menu. Please try again.');
+        }
     }
 }

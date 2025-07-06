@@ -7,8 +7,8 @@
     <div class="page-wrapper">
         <div class="form-container">
             <div class="form-header">
-                <h2>Create New Menu</h2>
-                <p>Add a new menu to your website</p>
+                <h2>Edit Menu</h2>
+                <p>Update your existing menu</p>
             </div>
 
             <!-- Display any errors -->
@@ -28,8 +28,9 @@
                 </div>
             @endif
 
-            <form action="{{ route('menus.store') }}" method="POST" autocomplete="off" class="page-form">
+            <form action="{{ route('menus.update', $menu->id) }}" method="POST" class="page-form" autocomplete="off">
                 @csrf
+                @method('PUT')
 
                 <div class="form-row">
                     <div class="form-group">
@@ -37,7 +38,7 @@
                         <select name="page_id" id="page_id" class="form-input">
                             <option value="">-- Choose Page --</option>
                             @foreach ($pages as $page)
-                            <option value="{{ $page->id }}" {{ old('page_id') == $page->id ? 'selected' : '' }}>
+                            <option value="{{ $page->id }}" {{ (old('page_id', $menu->page_id) == $page->id) ? 'selected' : '' }}>
                                 {{ $page->page_name }}
                             </option>
                             @endforeach
@@ -49,7 +50,7 @@
 
                     <div class="form-group">
                         <label for="menu_title">Menu Title</label>
-                        <input type="text" id="menu_title" name="menu_title" value="{{ old('menu_title') }}" class="form-input" placeholder="Enter menu title" required>
+                        <input type="text" id="menu_title" name="menu_title" value="{{ old('menu_title', $menu->menu_title) }}" class="form-input" placeholder="Enter menu title" required>
                         @error('menu_title')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -62,7 +63,7 @@
                             <span> English Menu </span>
                             <span class="lang-badge">EN</span>
                         </label>
-                        <input type="text" id="menu_en" name="menu_en" value="{{ old('menu_en') }}" class="form-input" placeholder="Menu in English" required>
+                        <input type="text" id="menu_en" name="menu_en" value="{{ old('menu_en', $menu->menu_en) }}" class="form-input" placeholder="Menu in English" required>
                         @error('menu_en')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -73,7 +74,7 @@
                             <span> French Menu </span>
                             <span class="lang-badge">FR</span>
                         </label>
-                        <input type="text" id="menu_fr" name="menu_fr" value="{{ old('menu_fr') }}" class="form-input" placeholder="Menu en Français" required>
+                        <input type="text" id="menu_fr" name="menu_fr" value="{{ old('menu_fr', $menu->menu_fr) }}" class="form-input" placeholder="Menu en Français" required>
                         @error('menu_fr')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -84,7 +85,7 @@
                             <span> Arabic Menu </span>
                             <span class="lang-badge">AR</span>
                         </label>
-                        <input type="text" id="menu_ar" name="menu_ar" value="{{ old('menu_ar') }}" class="form-input" dir="rtl" placeholder="القائمة بالعربية" required>
+                        <input type="text" id="menu_ar" name="menu_ar" value="{{ old('menu_ar', $menu->menu_ar) }}" class="form-input" dir="rtl" placeholder="القائمة بالعربية" required>
                         @error('menu_ar')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -92,86 +93,86 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="submit-btn" onclick="return confirmCreate()">
+                    <button type="submit" class="submit-btn" onclick="return confirmUpdate()">
                         <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
-                        <span>Create Menu</span>
+                        <span>Update Menu</span>
                     </button>
                     
-                    <button type="reset" class="reset-btn">
+                    <a href="{{ route('menus.index') }}" class="cancel-btn">
                         <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
-                        <span>Reset Form</span>
-                    </button>
+                        <span>Cancel</span>
+                    </a>
                 </div>
             </form>
         </div>
     </div>
 
-   <!-- Create Confirmation Script -->
-<script>
-    function confirmCreate() {
-        // Show confirmation dialog
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'Are you sure you want to create this Menu?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#10b981',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Create',
-            cancelButtonText: 'Cancel',
-            background: '#f0f8ff'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Show processing message
-                Swal.fire({
-                    title: 'Creating...',
-                    text: 'Please wait while we create the menu...',
-                    icon: 'info',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    showConfirmButton: false,
-                    background: '#f0f8ff',
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-                
-                // Submit the form
-                document.querySelector('.page-form').submit();
-            }
-        });
-        
-        // Prevent form submission until confirmed
-        return false;
-    }
-
-    // Add form validation on submit
-    document.querySelector('.page-form').addEventListener('submit', function(e) {
-        const requiredFields = this.querySelectorAll('[required]');
-        let isValid = true;
-        
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                isValid = false;
-                field.style.borderColor = '#ef4444';
-            } else {
-                field.style.borderColor = '#e2e8f0';
-            }
-        });
-        
-        if (!isValid) {
-            e.preventDefault();
+    <!-- Update Confirmation Script -->
+    <script>
+        function confirmUpdate() {
+            // Show confirmation dialog
             Swal.fire({
-                title: 'Validation Error',
-                text: 'Please fill in all required fields',
-                icon: 'error',
-                confirmButtonColor: '#ef4444'
+                title: 'Are you sure?',
+                text: 'Are you sure you want to update this Menu?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#10b981',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Update',
+                cancelButtonText: 'Cancel',
+                background: '#f0f8ff'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Show processing message
+                    Swal.fire({
+                        title: 'Updating...',
+                        text: 'Please wait while we update the menu...',
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        background: '#f0f8ff',
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                    
+                    // Submit the form
+                    document.querySelector('.page-form').submit();
+                }
             });
+            
+            // Prevent form submission until confirmed
+            return false;
         }
-    });
-</script>
+
+        // Add form validation on submit
+        document.querySelector('.page-form').addEventListener('submit', function(e) {
+            const requiredFields = this.querySelectorAll('[required]');
+            let isValid = true;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.borderColor = '#ef4444';
+                } else {
+                    field.style.borderColor = '#e2e8f0';
+                }
+            });
+            
+            if (!isValid) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Validation Error',
+                    text: 'Please fill in all required fields',
+                    icon: 'error',
+                    confirmButtonColor: '#ef4444'
+                });
+            }
+        });
+    </script>
 @endsection

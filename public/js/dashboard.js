@@ -84,3 +84,6 @@ document.getElementById('profileMenu').addEventListener('click', function() {
   createStarBurst();
   createParticles();
   createStars();
+
+
+   

@@ -11,8 +11,7 @@
             <p>Add a new page to your website</p>
         </div>
 
-        <form action="{{ route('pages.store') }}" method="POST" class="page-form" onsubmit="return confirmCreate()"
-             autocomplete="off">
+        <form action="{{ route('pages.store') }}" method="POST" autocomplete="off" class="page-form"> 
             @csrf
 
             <div class="form-row">
@@ -82,41 +81,40 @@
 <!-- Create Confirmation Script -->
 <script>
     function confirmCreate() {
-            // Show confirmation dialog
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'Are you sure you want to create this page?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#10b981',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Create',
-                cancelButtonText: 'Cancel',
-                background: '#f0f8ff'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Show processing message
-                    Swal.fire({
-                        title: 'Creating...',
-                        text: 'Please wait while we create the page...',
-                        icon: 'info',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        showConfirmButton: false,
-                        background: '#f0f8ff',
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-                    
-                    // Submit the form
-                    document.querySelector('.page-form').submit();
-                }
-            });
-            
-            // Prevent form submission until confirmed
-            return false;
-        }
+        event.preventDefault(); // ✅ Prevent actual submission
 
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Are you sure you want to create this Menu?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#10b981',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Create',
+            cancelButtonText: 'Cancel',
+            background: '#f0f8ff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Creating...',
+                    text: 'Please wait while we create the menu...',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    background: '#f0f8ff',
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // ✅ Submit the form using JavaScript
+                document.querySelector('.page-form').submit();
+            }
+        });
+
+        return false;
+    }
 </script>
+
 @endsection
