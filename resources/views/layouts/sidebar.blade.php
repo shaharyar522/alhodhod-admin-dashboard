@@ -26,7 +26,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link">
+            <a href="{{route('articles.index')}}" class="nav-link">
                 <i class="fa-solid fa-star-and-crescent"></i>
                 <span>Articles</span>
             </a>

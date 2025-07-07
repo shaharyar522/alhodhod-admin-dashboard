@@ -37,7 +37,7 @@ class PageController extends Controller
             'page_french'   => 'required|string',
             'page_arabic'   => 'required|string',
         ]);
-
+        
         Page::create([
             'page_name' => $request->page_name,
             'page_link' => $request->page_link,

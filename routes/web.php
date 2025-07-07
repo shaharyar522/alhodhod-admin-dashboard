@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
@@ -26,10 +27,14 @@ Route::get('/menus/{id}/edit', [MenuController::class, 'edit'])->name('menus.edi
 Route::put('/menus/{id}/update', [MenuController::class, 'update'])->name('menus.update');
 Route::delete('/menus/{id}/delete', [MenuController::class, 'destroy'])->name('menus.destroy');
 
-Route::get('/refresh-csrf', function () {
-    return response()->json(['csrfToken' => csrf_token()]);
-})->name('refresh.csrf');
-
+//working on articles
+Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
+Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
+Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
+Route::put('/articles/{id}/update', [ArticleController::class, 'update'])->name('articles.update');
+Route::delete('/articles/{id}/delete', [ArticleController::class, 'destroy'])->name('articles.destroy');
+Route::get('/articles/{id}/show', [ArticleController::class, 'show'])->name('articles.show');
 
 
 Route::middleware('auth')->group(function () {
