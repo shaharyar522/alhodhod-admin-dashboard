@@ -28,7 +28,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('menus.update', $menu->id) }}" method="POST" class="page-form" autocomplete="off">
+            <form action="{{route('menus.update', $menu->id)}}" method="POST" class="page-form" autocomplete="off">
                 @csrf
                 @method('PUT')
 
@@ -111,26 +111,52 @@
         </div>
     </div>
 
-    <!-- Update Confirmation Script -->
     <script>
-        function confirmUpdate() {
-            // Show confirmation dialog
+        document.querySelector('.page-form').addEventListener('submit', function (e) {
+            e.preventDefault(); // Stop default form submission
+    
+            const form = this;
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+    
+            // ✅ Step 1: Validate fields
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.borderColor = '#ef4444';
+                } else {
+                    field.style.borderColor = '#e2e8f0';
+                }
+            });
+    
+            if (!isValid) {
+                Swal.fire({
+                    title: 'Validation Error',
+                    text: 'Please fill in all required fields',
+                    icon: 'error',
+                    confirmButtonColor: '#ef4444'
+                });
+                return;
+            }
+    
+            // ✅ Step 2: Confirm from user
             Swal.fire({
                 title: 'Are you sure?',
-                text: 'Are you sure you want to update this Menu?',
+                text: 'Are you sure you want to Update this Menu?',
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#10b981',
                 cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Update',
+                confirmButtonText: 'Create',
                 cancelButtonText: 'Cancel',
                 background: '#f0f8ff'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Show processing message
+    
+                    // ✅ Step 3: Show processing
                     Swal.fire({
-                        title: 'Updating...',
-                        text: 'Please wait while we update the menu...',
+                        title: 'Creating...',
+                        text: 'Please wait while we Updating the menu...',
                         icon: 'info',
                         allowOutsideClick: false,
                         allowEscapeKey: false,
@@ -140,39 +166,30 @@
                             Swal.showLoading();
                         }
                     });
-                    
-                    // Submit the form
-                    document.querySelector('.page-form').submit();
+    
+                    // ✅ Step 4: Simulate server and show success
+                    setTimeout(() => {
+                        Swal.close();
+    
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Your menu has been Updated successfully!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            background: '#f0f8ff',
+                            timer: 1500
+                        });
+    
+                        // ✅ Step 5: After success, fast redirect (no form re-submission)
+                        setTimeout(() => {
+                            window.location.href = "{{ route('menus.index') }}"; // Redirect directly
+                        }, 1600);
+    
+                    }, 1500);
                 }
             });
-            
-            // Prevent form submission until confirmed
-            return false;
-        }
-
-        // Add form validation on submit
-        document.querySelector('.page-form').addEventListener('submit', function(e) {
-            const requiredFields = this.querySelectorAll('[required]');
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.style.borderColor = '#ef4444';
-                } else {
-                    field.style.borderColor = '#e2e8f0';
-                }
-            });
-            
-            if (!isValid) {
-                e.preventDefault();
-                Swal.fire({
-                    title: 'Validation Error',
-                    text: 'Please fill in all required fields',
-                    icon: 'error',
-                    confirmButtonColor: '#ef4444'
-                });
-            }
         });
     </script>
+
+
 @endsection

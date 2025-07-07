@@ -33,7 +33,9 @@ Route::get('/articles/create', [ArticleController::class, 'create'])->name('arti
 Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
 Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
 Route::put('/articles/{id}/update', [ArticleController::class, 'update'])->name('articles.update');
-Route::delete('/articles/{id}/delete', [ArticleController::class, 'destroy'])->name('articles.destroy');
+Route::delete('/articles/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
+
+
 Route::get('/articles/{id}/show', [ArticleController::class, 'show'])->name('articles.show');
 
 

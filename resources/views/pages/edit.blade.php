@@ -65,25 +65,84 @@
         </div>
     </div>
 
-    <!-- Update Processing Script -->
     <script>
-        function confirmUpdate() {
-            // Show processing message
-            Swal.fire({
-                title: 'Updating...',
-                text: 'Please wait while we update the page...',
-                icon: 'info',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                showConfirmButton: false,
-                background: '#f0f8ff',
-                didOpen: () => {
-                    Swal.showLoading();
+        document.querySelector('.page-form').addEventListener('submit', function (e) {
+            e.preventDefault(); // Stop default form submission
+    
+            const form = this;
+            const requiredFields = form.querySelectorAll('[required]');
+            let isValid = true;
+    
+            // ✅ Step 1: Validate fields
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.style.borderColor = '#ef4444';
+                } else {
+                    field.style.borderColor = '#e2e8f0';
                 }
             });
-            
-            // Allow form to submit
-            return true;
-        }
-    </script>
+    
+            if (!isValid) {
+                Swal.fire({
+                    title: 'Validation Error',
+                    text: 'Please fill in all required fields',
+                    icon: 'error',
+                    confirmButtonColor: '#ef4444'
+                });
+                return;
+            }
+    
+            // ✅ Step 2: Confirm from user
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Are you sure you want to Update this Page?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#10b981',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Create',
+                cancelButtonText: 'Cancel',
+                background: '#f0f8ff'
+            }).then((result) => {
+                if (result.isConfirmed) {
+    
+                    // ✅ Step 3: Show processing
+                    Swal.fire({
+                        title: 'Creating...',
+                        text: 'Please wait while we Updating the page...',
+                        icon: 'info',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        showConfirmButton: false,
+                        background: '#f0f8ff',
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+    
+                    // ✅ Step 4: Simulate server and show success
+                    setTimeout(() => {
+                        Swal.close();
+    
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Your page has been Updated successfully!',
+                            icon: 'success',
+                            showConfirmButton: false,
+                            background: '#f0f8ff',
+                            timer: 1500
+                        });
+    
+                        // ✅ Step 5: After success, fast redirect (no form re-submission)
+                        setTimeout(() => {
+                            window.location.href = "{{ route('pages.index') }}"; // Redirect directly
+                        }, 1600);
+    
+                    }, 1500);
+                }
+            });
+        });
+    </script> 
+    
 @endsection

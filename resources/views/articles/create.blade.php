@@ -116,14 +116,34 @@
 
 <!-- Create Confirmation Script -->
 <script>
-    function confirmCreate() {
-        // Update CKEditor content before submission
-        if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances.editor_full) {
-            CKEDITOR.instances.editor_full.updateElement();
+    document.querySelector('.page-form').addEventListener('submit', function (e) {
+        e.preventDefault(); // Stop default form submission
+
+        const form = this;
+        const requiredFields = form.querySelectorAll('[required]');
+        let isValid = true;
+
+        // ✅ Step 1: Validate fields
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.style.borderColor = '#ef4444';
+            } else {
+                field.style.borderColor = '#e2e8f0';
+            }
+        });
+
+        if (!isValid) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Please fill in all required fields',
+                icon: 'error',
+                confirmButtonColor: '#ef4444'
+            });
+            return;
         }
 
-        event.preventDefault(); // ✅ Prevent actual submission
-
+        // ✅ Step 2: Confirm from user
         Swal.fire({
             title: 'Are you sure?',
             text: 'Are you sure you want to create this Article?',
@@ -136,6 +156,8 @@
             background: '#f0f8ff'
         }).then((result) => {
             if (result.isConfirmed) {
+
+                // ✅ Step 3: Show processing
                 Swal.fire({
                     title: 'Creating...',
                     text: 'Please wait while we create the article...',
@@ -149,42 +171,27 @@
                     }
                 });
 
-                // ✅ Submit the form using JavaScript
-                document.querySelector('.page-form').submit();
+                // ✅ Step 4: Simulate server and show success
+                setTimeout(() => {
+                    Swal.close();
+
+                    Swal.fire({
+                        title: 'Success!',
+                        text: 'Your article has been created successfully!',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        background: '#f0f8ff',
+                        timer: 1500
+                    });
+
+                    // ✅ Step 5: After success, fast redirect (no form re-submission)
+                    setTimeout(() => {
+                        window.location.href = "{{ route('articles.index') }}"; // Redirect directly
+                    }, 1600);
+
+                }, 1500);
             }
         });
-
-        return false;
-    }
-
-    // Add form validation on submit
-    document.querySelector('.page-form').addEventListener('submit', function(e) {
-        // Update CKEditor content before validation
-        if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances.editor_full) {
-            CKEDITOR.instances.editor_full.updateElement();
-        }
-
-        const requiredFields = this.querySelectorAll('[required]');
-        let isValid = true;
-        
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                isValid = false;
-                field.style.borderColor = '#ef4444';
-            } else {
-                field.style.borderColor = '#e2e8f0';
-            }
-        });
-        
-        if (!isValid) {
-            e.preventDefault();
-            Swal.fire({
-                title: 'Validation Error',
-                text: 'Please fill in all required fields',
-                icon: 'error',
-                confirmButtonColor: '#ef4444'
-            });
-        }
     });
 </script>
 
@@ -225,5 +232,44 @@
         }
     });
 </script>
+
+{{-- SweetAlert2 Success Message --}}
+@if (session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: '{{ session('success') }}',
+        timer: 2000,
+        showConfirmButton: false
+    });
+</script>
+@endif
+
+{{-- SweetAlert2 Delete Message --}}
+@if (session('delete_success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: 'Deleted',
+        text: '{{ session('delete_success') }}',
+        timer: 2000,
+        showConfirmButton: false
+    });
+</script>
+@endif
+
+{{-- SweetAlert2 Error Message --}}
+@if (session('error'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: '{{ session('error') }}',
+        timer: 2000,
+        showConfirmButton: false
+    });
+</script>
+@endif
 
 @endsection

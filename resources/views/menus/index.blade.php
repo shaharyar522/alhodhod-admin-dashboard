@@ -50,7 +50,7 @@
                                 <span>Edit</span>
                             </a>
                             
-                            <form action="" method="POST" class="delete-form" style="display: inline;">
+                            <form action="{{ route('menus.destroy', $menu->id) }}" method="POST" class="delete-form" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="delete-btn" onclick="confirmDelete(this)">

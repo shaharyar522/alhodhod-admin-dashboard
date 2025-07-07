@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Article;
 use App\Models\Menu;
 use Illuminate\Http\Request;
+use PhpParser\Node\Arg;
 
 class ArticleController extends Controller
 {
@@ -18,7 +19,7 @@ class ArticleController extends Controller
     {
         $articles = Article::with('menu')->get();
 
-        return view('article.index', compact('articles'));
+        return view('articles.index', compact('articles'));
     }
 
     /**
@@ -28,7 +29,7 @@ class ArticleController extends Controller
     {
         //uay optinal realtionship ki value ko dehkanay k leuy ahina 
         $menus = Menu::all();
-        return view('article.create', compact('menus'));
+        return view('articles.create', compact('menus'));
     }
 
     /**
@@ -59,7 +60,7 @@ class ArticleController extends Controller
                 $article_image_OriginalName = time() . '_' . $article_image->getClientOriginalName();
                 $article_image->move(public_path('uploadimage/article_image'), $article_image_OriginalName);
 
-                $article_image_path = 'uploadimage/article_image' .  $article_image_OriginalName;
+                $article_image_path = 'uploadimage/article_image/' .  $article_image_OriginalName;
             }
 
 
@@ -74,7 +75,7 @@ class ArticleController extends Controller
                 'show_on_home_page' => $request->has('show_on_home_page') ? 1 : 0,
                 'menu_id' => $request->menu_id,
             ]);
-            return redirect()->route('articles.index');
+            return redirect()->route('articles.index')->with('success', 'Article created successfully!');
         } catch (\Throwable $th) {
             // Redirect back with error message
             return back()->with('error', 'Something went wrong while creating the article.');
@@ -97,7 +98,7 @@ class ArticleController extends Controller
     {
         $article = Article::findorFail($id);
         $menus = Menu::all();
-        return view('article.edit', compact('article', 'menus'));
+        return view('articles.edit', compact('article', 'menus'));
     }
 
     /**
@@ -133,6 +134,13 @@ class ArticleController extends Controller
             $article_image_path = $article->article_image;
 
             if ($request->hasFile('article_image')) {
+
+                // agar db main pahly say image hian to wo delete hn jain gi
+
+                if ($article->article_image && file_exists(public_path($article->article_image))) {
+                    unlink(public_path($article->article_image));
+                }
+                
                 $article_image = $request->file('article_image');
                 $article_image_OriginalName = time() . '_' . $article_image->getClientOriginalName();
                 $article_image->move(public_path('uploadimage/article_image'), $article_image_OriginalName);
@@ -161,20 +169,9 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Article $article)
+    public function destroy($id)
     {
-        try {
-            // Delete the article image if it exists
-            if ($article->article_image && file_exists(public_path($article->article_image))) {
-                unlink(public_path($article->article_image));
-            }
-            
-            // Delete the article
-            $article->delete();
-            
-            return redirect()->route('articles.index')->with('success', 'Article deleted successfully!');
-        } catch (\Throwable $th) {
-            return back()->with('error', 'Something went wrong while deleting the article.');
-        }
+       Article::destroy($id);
+        return redirect()->route('articles.index')->with('delete_success', 'Article deleted successfully.');
     }
 }

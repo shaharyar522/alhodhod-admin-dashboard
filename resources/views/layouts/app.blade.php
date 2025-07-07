@@ -44,10 +44,12 @@
 {{-- uay hamray pass csrf token ka time period hian jo ky hum data ko store krany k leuy w8 krty hian 10 minutes krty hian 
  --}}
  {{-- sweet alert script --}}
- <!-- SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
+ {{-- SweetAlert --}}
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+ @yield('scripts') <!-- ✅ Important for CKEditor in edit page -->
 </body>
 
 </html>
