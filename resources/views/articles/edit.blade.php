@@ -47,10 +47,18 @@
                     <input type="file" id="article_image" name="article_image" class="form-input" accept="image/*">
 
                     @if(!empty($article->article_image))
-                    <div class="image-preview-wrapper">
-                        <img src="{{ asset($article->article_image) }}" alt="Current Image">
+                    <div class="image-preview-wrapper" style="margin-top: 10px;">
+                        <img id="previewImage" src="{{ asset($article->article_image) }}" alt="Current Image"
+                            style="width: 120px; height: 120px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd;">
+                    </div>
+                    @else
+                    <div class="image-preview-wrapper" style="margin-top: 10px;">
+                        <img id="previewImage" src="#" alt="Preview"
+                            style="display: none; width: 120px; height: 120px; object-fit: cover; border-radius: 6px; border: 1px solid #ddd;">
                     </div>
                     @endif
+
+
 
 
 
@@ -117,7 +125,8 @@
 @endsection
 
 @section('scripts')
-<script>
+
+ <script>
     // Initialize CKEditor
     let editor = CKEDITOR.replace('editor_full', {
         height: 400,
@@ -184,13 +193,13 @@
 {{-- SweetAlert2 Success Message --}}
 <script>
     document.querySelector('.page-form').addEventListener('submit', function (e) {
-        e.preventDefault(); // Stop default form submission
+        e.preventDefault(); // Stop default for now
 
         const form = this;
         const requiredFields = form.querySelectorAll('[required]');
         let isValid = true;
 
-        // ✅ Step 1: Validate fields
+        // ✅ Validate required fields
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
                 isValid = false;
@@ -210,24 +219,23 @@
             return;
         }
 
-        // ✅ Step 2: Confirm from user
+        // ✅ Ask for confirmation
         Swal.fire({
             title: 'Are you sure?',
-            text: 'Are you sure you want to Update this Article?',
+            text: 'Do you want to update this Article?',
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#10b981',
             cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Create',
+            confirmButtonText: 'Yes, update it!',
             cancelButtonText: 'Cancel',
             background: '#f0f8ff'
         }).then((result) => {
             if (result.isConfirmed) {
-
-                // ✅ Step 3: Show processing
+                // ✅ Show processing message
                 Swal.fire({
-                    title: 'Creating...',
-                    text: 'Please wait while we Updating the article...',
+                    title: 'Updating...',
+                    text: 'Please wait while we update the Article...',
                     icon: 'info',
                     allowOutsideClick: false,
                     allowEscapeKey: false,
@@ -238,29 +246,49 @@
                     }
                 });
 
-                // ✅ Step 4: Simulate server and show success
+                // ✅ Let the form submit *after* a small delay to show loader
                 setTimeout(() => {
-                    Swal.close();
-
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'Your article has been Updated successfully!',
-                        icon: 'success',
-                        showConfirmButton: false,
-                        background: '#f0f8ff',
-                        timer: 1500
-                    });
-
-                    // ✅ Step 5: After success, fast redirect (no form re-submission)
-                    setTimeout(() => {
-                        window.location.href = "{{ route('articles.index') }}"; // Redirect directly
-                    }, 1600);
-
-                }, 1500);
+                    form.submit(); // Real submit now to Laravel controller
+                }, 1000);
             }
         });
     });
 </script>
 
+
+
+
+
+<style>
+     .image-preview-wrapper img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        margin-top: 5px;
+    }
+</style>
+
+
+{{-- this is the image artilce to show --}}
+
+
+@push('article-image-prview')
+<script>
+    document.getElementById('article_image').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const preview = document.getElementById('previewImage');
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
+@endpush
 
 @endsection

@@ -13,22 +13,24 @@
 
         <!-- Display any errors -->
         @if(session('error'))
-            <div class="alert alert-danger" style="background: #fee2e2; border: 1px solid #fecaca; color: #dc2626; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                {{ session('error') }}
-            </div>
+        <div class="alert alert-danger"
+            style="background: #fee2e2; border: 1px solid #fecaca; color: #dc2626; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            {{ session('error') }}
+        </div>
         @endif
 
         @if($errors->any())
-            <div class="alert alert-danger" style="background: #fee2e2; border: 1px solid #fecaca; color: #dc2626; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
-                <ul style="margin: 0; padding-left: 1rem;">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
+        <div class="alert alert-danger"
+            style="background: #fee2e2; border: 1px solid #fecaca; color: #dc2626; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+            <ul style="margin: 0; padding-left: 1rem;">
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
         @endif
 
-        <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data" >
+        <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="form-row">
@@ -45,7 +47,8 @@
 
                 <div class="form-group">
                     <label for="article_title">Article Title</label>
-                    <input type="text" id="article_title" name="article_title" class="form-input" placeholder="Enter article title" value="{{old('article_title')}}" required>
+                    <input type="text" id="article_title" name="article_title" class="form-input"
+                        placeholder="Enter article title" value="{{old('article_title')}}" required>
                     @error('article_title') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
             </div>
@@ -53,13 +56,23 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="metatag">Meta Tag</label>
-                    <input type="text" id="metatag" name="metatag" class="form-input" placeholder="Meta tag, SEO keywords" value="{{old('metatag')}}">
+                    <input type="text" id="metatag" name="metatag" class="form-input"
+                        placeholder="Meta tag, SEO keywords" value="{{old('metatag')}}">
                     @error('metatag') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
 
                 <div class="form-group">
                     <label for="article_image">Upload Image</label>
                     <input type="file" id="article_image" name="article_image" class="form-input" accept="image/*">
+
+                    {{-- =======Start imgage priviw code ======= --}}
+                    <!-- Preview container -->
+                    <div class="image-preview-wrapper">
+                        <img id="previewImage" src="#" alt="Preview">
+                    </div>
+
+                    {{-- =======End imgage priviw code ======= --}}
+
                     @error('article_image') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
             </div>
@@ -81,7 +94,8 @@
                 <div class="form-group">
                     <label for="show_on_home">Show on Home Page</label>
                     <div style="margin-top: 0.5rem;">
-                        <input type="checkbox" id="show_on_home" name="show_on_home_page" value="1" {{ old('show_on_home_page') ? 'checked' : '' }} style="margin-right: 0.5rem;">
+                        <input type="checkbox" id="show_on_home" name="show_on_home_page" value="1" {{
+                            old('show_on_home_page') ? 'checked' : '' }} style="margin-right: 0.5rem;">
                         <label for="show_on_home" style="font-weight: normal; margin: 0;">Yes</label>
                     </div>
                 </div>
@@ -90,7 +104,8 @@
             <div class="form-row">
                 <div class="form-group" style="flex: 1;">
                     <label for="editor_full">Content</label>
-                    <textarea name="content" id="editor_full" class="form-textarea" rows="10" placeholder="Enter article content" required>{{ old('content') }}</textarea>
+                    <textarea name="content" id="editor_full" class="form-textarea" rows="10"
+                        placeholder="Enter article content" required>{{ old('content') }}</textarea>
                     @error('content') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
             </div>
@@ -105,7 +120,9 @@
 
                 <button type="reset" class="reset-btn">
                     <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                        </path>
                     </svg>
                     <span>Reset Form</span>
                 </button>
@@ -114,77 +131,80 @@
     </div>
 </div>
 
-<!-- Create Confirmation Script -->
+{{-- ==== start sweet alert message first asekd and secnd proces and third is successs message and last if without fill the form
+ then  show message error --}}
 <script>
-    document.querySelector('form').addEventListener('submit', function (e) {
-        e.preventDefault(); // Stop default form submission
+document.querySelector('form').addEventListener('submit', function (e) {
+    e.preventDefault(); // Stop form submission
+    const form = this;
+    const requiredFields = form.querySelectorAll('[required]');
+    let firstMissingField = null;
+    let isValid = true;
 
-        const form = this;
-        const requiredFields = form.querySelectorAll('[required]');
-        let isValid = true;
-
-        // Step 1: Validate required fields
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                isValid = false;
-                field.style.borderColor = '#ef4444';
-            } else {
-                field.style.borderColor = '#e2e8f0';
-            }
-        });
-
-        if (!isValid) {
-            Swal.fire({
-                title: 'Validation Error',
-                text: 'Please fill in all required fields',
-                icon: 'error',
-                confirmButtonColor: '#ef4444'
-            });
-            return;
+    // Step 1: Validate and collect first missing field
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            isValid = false;
+            field.style.borderColor = '#ef4444';
+            if (!firstMissingField) firstMissingField = field;
+        } else {
+            field.style.borderColor = '#e2e8f0';
         }
-
-        // Step 2: Confirm from user
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'Are you sure you want to create this Article?',
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#10b981',
-            cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Create',
-            cancelButtonText: 'Cancel',
-            background: '#f0f8ff'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Optional: show a processing/loading dialog
-                Swal.fire({
-                    title: 'Creating...',
-                    text: 'Please wait while we create the article...',
-                    icon: 'info',
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    showConfirmButton: false,
-                    background: '#f0f8ff',
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-
-                // Submit form to server (Laravel will handle redirect + session)
-                setTimeout(() => {
-                    form.submit(); // 🔁 This will actually submit the form
-                }, 1000);
-            }
-        });
-
-        
     });
-</script>
-{{-- and last sweet aelrt message after the procecc then show tick successfully messag --}}
-{{-- Show SweetAlert success message after redirect --}}
-@if (session('success'))
-    <script>
+
+    if (!isValid) {
+        // Focus on the first missing field
+        if (firstMissingField) firstMissingField.focus();
+
+        // SweetAlert for specific feedback
         Swal.fire({
+            title: 'Missing Required Field',
+            text: firstMissingField.getAttribute('placeholder') || 'Please fill in required input',
+            icon: 'error',
+            confirmButtonColor: '#ef4444'
+        });
+        return;
+    }
+
+    // Step 2: Confirm from user
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to create this article?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#10b981',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'Yes, Create',
+        cancelButtonText: 'Cancel',
+        background: '#f0f8ff'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Creating...',
+                text: 'Please wait...',
+                icon: 'info',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+                background: '#f0f8ff',
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            setTimeout(() => {
+                form.submit();
+            }, 1000);
+        }
+    });
+});
+</script>
+
+
+  {{-- Show SweetAlert success message after redirect --}}
+@if (session('success'))
+  <script>
+    Swal.fire({
             icon: 'success',
             title: 'Success!',
             text: @json(session('success')),
@@ -192,12 +212,14 @@
             timer: 2000,
             background: '#f0f8ff'
         });
-    </script>
+  </script>
 @endif
+{{-- ==== End sweet alert message first asekd and secnd proces and third is successs message and last if without fill the form
+ then  show message error --}}
 
 
 
-{{-- CKEditor Script --}}
+{{--========== start CKEditor Script {{--========== --}}
 <script>
     // Initialize CKEditor
     let editor = CKEDITOR.replace('editor_full', {
@@ -234,7 +256,40 @@
         }
     });
 </script>
+{{--========== End CKEditor Script {{--========== --}}
 
+{{-- =================== Start artilce image preview code =================== --}}
+<style>
+    /* Add this to your page-form.css */
+.image-preview-wrapper {
+    margin-top: 10px;
+}
 
+.image-preview-wrapper img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    display: none; /* Hidden by default */
+}
+</style>
+@push('article-image-prview')
+<script>
+   document.getElementById('article_image').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const preview = document.getElementById('previewImage');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+@endpush
+{{-- =================== End artilce image preview code =================== --}}
 
 @endsection

@@ -66,5 +66,9 @@
   </script>
 @endif
 
+{{-- artilce script image when edit teh nshow a new image and replace the old image to view the user --}}
+{{-- in  article eidt page --}}
+ @stack('article-image-prview')
+
 </body>
 </html>

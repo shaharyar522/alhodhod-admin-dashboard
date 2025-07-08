@@ -170,8 +170,22 @@ class ArticleController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-    {
-       Article::destroy($id);
-        return redirect()->route('articles.index')->with('delete_success', 'Article deleted successfully.');
+{
+    try {
+        $article = Article::findOrFail($id);
+
+        // Delete the image from public folder if exists
+        if ($article->article_image && file_exists(public_path($article->article_image))) {
+            unlink(public_path($article->article_image));
+        }
+
+        // Delete article from database
+        $article->delete();
+
+        return redirect()->route('articles.index')->with('delete_success', 'Article and its image deleted successfully.');
+    } catch (\Throwable $th) {
+        return redirect()->route('articles.index')->with('error', 'Failed to delete article.');
     }
+}
+
 }
