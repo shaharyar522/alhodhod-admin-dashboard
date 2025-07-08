@@ -13,7 +13,7 @@ class ArticleImageController extends Controller
     public function index()
     {
         $articleImages = ArticleImage::get();
-        return view('articles_Images.index',compact('articleImages'));
+        return view('articles_Images.index', compact('articleImages'));
     }
 
     /**
@@ -27,24 +27,24 @@ class ArticleImageController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request)
     {
 
-         $request->validate([
-            'article_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        $request->validate([
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
         try {
-              $article_image = null;
-            if ($request->hasFile('article_image')) {
-                $article_image = $request->file('article_image');
+            if ($request->hasFile('image')) {
+                $article_image = $request->file('image');
                 $article_image_OriginalName = time() . '_' . $article_image->getClientOriginalName();
-                $article_image->move(public_path('artilceimages/article_image'), $article_image_OriginalName);
+                $article_image->move(public_path('articlesimages/article_image'), $article_image_OriginalName);
 
-                $article_image_path = 'artilceimages/article_image/' .  $article_image_OriginalName;
+                $article_image_path = 'articlesimages/article_image/' .  $article_image_OriginalName;
             }
 
             // ab main store karo ga data ko database main 
-            
+
             ArticleImage::create([
                 'Image_path' => $article_image_path,
             ]);
@@ -65,17 +65,50 @@ class ArticleImageController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ArticleImage $articleImage)
+    public function edit($id)
     {
-        //
+        $article_image = ArticleImage::findorFail($id);
+
+        return view('articles_Images.edit', compact('article_image'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, ArticleImage $articleImage)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
+        try {
+            // 1. First,
+            $ArticleImage = ArticleImage::findorFail($id);
+
+            //2  // Fallback to current image path
+
+            $article_image_path =  $ArticleImage->Image_path;
+
+            // 3. Handle new file upload   or If user uploads a new image
+
+            if ($request->hasFile('image')) {
+                $article_image = $request->file('image');
+                $article_image_OriginalName = time() . '_' . $article_image->getClientOriginalName();
+                $article_image->move(public_path('articlesimages/article_image'), $article_image_OriginalName);
+                $article_image_path = 'articlesimages/article_image/' .  $article_image_OriginalName;
+            }
+
+            // ab main update karo ga data ko database main 
+
+            $ArticleImage->Image_path = $article_image_path;
+
+            $ArticleImage->save();
+
+            return redirect()->route('articleimage.index')->with('success', 'Article Image created successfully!');
+        } catch (\Throwable $th) {
+
+            return back()->with('error', 'Something went wrong while updating the article.');
+        }
     }
 
     /**

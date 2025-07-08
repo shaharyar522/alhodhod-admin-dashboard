@@ -33,18 +33,23 @@
                 <tr>
                     <td>{{$image->id}}</td>
                     <td>
-                        <img src="{{ asset($image->Image_path) }}" alt="Article Image" class="img-preview">
+                        <img src="{{ asset($image->Image_path) }}" alt="Article Image"
+                            style="width: 120px; height: 120px; object-fit: cover; border-radius: 6px; border: 1px solid #ccc;">
                     </td>
                     <td>
-                        <div class="copy-container">
+                        <div style="display: flex; align-items: center; gap: 8px; justify-content: center;">
                             <input type="text" value="{{ asset($image->Image_path) }}" id="imgPath{{ $image->id }}"
-                                readonly>
-                            <button onclick="copyToClipboard('imgPath{{ $image->id }}')">Copy</button>
+                                readonly
+                                style="width: 180px; font-size: 12px; padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                            <button onclick="copyToClipboard('imgPath{{ $image->id }}')"
+                                style="font-size: 12px; padding: 5px 10px; background-color: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                                Copy
+                            </button>
                         </div>
                     </td>
                     <td>
                         <div class="action-buttons">
-                            <a href="" class="edit-btn">
+                            <a href="{{route('articleimage.edit',$image->id)}}" class="edit-btn">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
@@ -93,4 +98,25 @@ function confirmDelete(button) {
     }
 }
 </script>
+
+<script>
+    function copyToClipboard(elementId) {
+    const input = document.getElementById(elementId);
+    input.select();
+    input.setSelectionRange(0, 99999); // For mobile
+    document.execCommand("copy");
+
+    // ✅ Show SweetAlert message
+    Swal.fire({
+        icon: 'success',
+        title: 'Copied!',
+        text: 'Your image path has been copied successfully.',
+        timer: 2000,
+        showConfirmButton: false,
+        background: '#f0fdf4'
+    });
+}
+</script>
 @endsection
+
+{{-- articlesimages/article_image/1751987541_Untitled design (6).png --}}

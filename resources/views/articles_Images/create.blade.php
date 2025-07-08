@@ -37,8 +37,8 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="article_image">Choose Article Image</label>
-                    <input type="file" id="article_image" name="article_image" class="form-input" required>
-                    @error('article_image')
+                    <input type="file" id="article_image" name="image" class="form-input" required>
+                    @error('image')
                     <small class="text-danger">{{ $message }}</small>
                     @enderror
                 </div>
