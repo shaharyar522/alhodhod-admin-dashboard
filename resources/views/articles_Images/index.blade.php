@@ -1,36 +1,96 @@
+@extends('layouts.app')
 
- @extends('layouts.app');
+@section('Main-content')
 
-@section('content')
-<div class="container"> 
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Articles Images</h1>
-            <a href="{{ route('articles_images.create') }}" class="btn btn-primary mb-3">Add New Image</a>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Image</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($articlesImages as $image)
-                        <tr>
-                            <td>{{ $image->id }}</td>
-                            <td><img src="{{ asset('storage/' . $image->path) }}" alt="Image" style="width: 100px;"></td>
-                            <td>
-                                <a href="{{ route('articles_images.edit', $image->id) }}" class="btn btn-warning">Edit</a>
-                                <form action="{{ route('articles_images.destroy', $image->id) }}" method="POST" style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+<!-- Custom Table CSS -->
+<link rel="stylesheet" href="{{ asset('styling/article-images-table.css') }}">
+
+<div class="pages-container">
+    <!-- Header Section -->
+    <div class="pages-header">
+        <h1 class="pages-title">Article Images</h1>
+        <a href="{{ route('articleimage.create') }}" class="add-page-btn">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+            </svg>
+            <span>Add New Article Image</span>
+        </a>
     </div>
+
+    <!-- Table Section -->
+    <div class="pages-table-container">
+        <table class="pages-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Article Image</th>
+                    <th>Copy Image Path</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($articleImages as $image)
+                <tr>
+                    <td>{{$image->id}}</td>
+                    <td>
+                        <img src="{{ asset($image->Image_path) }}" alt="Article Image" class="img-preview">
+                    </td>
+                    <td>
+                        <div class="copy-container">
+                            <input type="text" value="{{ asset($image->Image_path) }}" id="imgPath{{ $image->id }}"
+                                readonly>
+                            <button onclick="copyToClipboard('imgPath{{ $image->id }}')">Copy</button>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="" class="edit-btn">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                                    </path>
+                                </svg>
+                                <span>Edit</span>
+                            </a>
+
+                            <form action="" method="POST" class="delete-form" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="delete-btn" onclick="confirmDelete(this)">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                        </path>
+                                    </svg>
+                                    <span>Delete</span>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+                <!-- Repeat rows dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+<script>
+    function copyToClipboard(elementId) {
+    var copyText = document.getElementById(elementId);
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+    document.execCommand('copy');
+    alert('Copied: ' + copyText.value);
+}
+
+function confirmDelete(button) {
+    if (confirm('Are you sure you want to delete this?')) {
+        // No backend, so just alert
+        alert('Deleted (demo only)');
+    }
+}
+</script>
+@endsection

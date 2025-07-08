@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ArticleImageController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
@@ -34,9 +35,16 @@ Route::post('/articles', [ArticleController::class, 'store'])->name('articles.st
 Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
 Route::put('/articles/{id}/update', [ArticleController::class, 'update'])->name('articles.update');
 Route::delete('/articles/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
-
-
 Route::get('/articles/{id}/show', [ArticleController::class, 'show'])->name('articles.show');
+
+
+//working on artilce images
+Route::get('/articleimage', [ArticleImageController::class, 'index'])->name('articleimage.index');
+Route::get('/articleimage/create', [ArticleImageController::class, 'create'])->name('articleimage.create');
+Route::post('/articleimage', [ArticleImageController::class, 'store'])->name('articleimage.store');
+Route::get('/articleimage/{id}/edit', [ArticleImageController::class, 'edit'])->name('articleimage.edit');
+Route::put('/articleimage/{id}/update', [ArticleImageController::class, 'update'])->name('articleimage.update');
+Route::delete('/articleimage/{id}', [ArticleImageController::class, 'destroy'])->name('articleimage.destroy');
 
 
 Route::middleware('auth')->group(function () {

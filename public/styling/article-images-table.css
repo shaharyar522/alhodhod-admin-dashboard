@@ -1,0 +1,76 @@
+  /* article-images-table.css */
+
+  .pages-table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.pages-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed; /* 💡 Force equal columns */
+}
+
+.pages-table th,
+.pages-table td {
+    border: 1px solid #e5e7eb;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 14px;
+    word-wrap: break-word;
+}
+
+/* Equal column widths (25% each) */
+.pages-table th:nth-child(1),
+.pages-table td:nth-child(1),
+.pages-table th:nth-child(2),
+.pages-table td:nth-child(2),
+.pages-table th:nth-child(3),
+.pages-table td:nth-child(3),
+.pages-table th:nth-child(4),
+.pages-table td:nth-child(4) {
+    width: 25%;
+}
+
+/* Image preview */
+.img-preview {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* Copy input + button */
+.copy-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.copy-container input {
+    width: 150px;
+    font-size: 12px;
+    padding: 4px 6px;
+}
+
+.copy-container button {
+    font-size: 12px;
+    padding: 4px 8px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+/* Action buttons */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+

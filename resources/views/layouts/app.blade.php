@@ -18,6 +18,8 @@
   <link rel="stylesheet" href="{{ asset('styling/dashboard.css')}}">
   <!-- Global Action Buttons CSS -->
   <link rel="stylesheet" href="{{ asset('styling/action-buttons.css')}}">
+  {{-- pages css --}}
+  <link rel="stylesheet" href="{{ asset('styling/pages.css') }}">
   <!-- CSRF Token -->
 
 </head>

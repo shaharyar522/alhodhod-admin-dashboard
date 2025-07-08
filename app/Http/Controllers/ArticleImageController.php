@@ -12,7 +12,8 @@ class ArticleImageController extends Controller
      */
     public function index()
     {
-        
+        $articleImages = ArticleImage::get();
+        return view('articles_Images.index',compact('articleImages'));
     }
 
     /**
@@ -20,7 +21,7 @@ class ArticleImageController extends Controller
      */
     public function create()
     {
-        //
+        return view('articles_Images.create');
     }
 
     /**
@@ -28,7 +29,29 @@ class ArticleImageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+         $request->validate([
+            'article_image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+        try {
+              $article_image = null;
+            if ($request->hasFile('article_image')) {
+                $article_image = $request->file('article_image');
+                $article_image_OriginalName = time() . '_' . $article_image->getClientOriginalName();
+                $article_image->move(public_path('artilceimages/article_image'), $article_image_OriginalName);
+
+                $article_image_path = 'artilceimages/article_image/' .  $article_image_OriginalName;
+            }
+
+            // ab main store karo ga data ko database main 
+            
+            ArticleImage::create([
+                'Image_path' => $article_image_path,
+            ]);
+            return redirect()->route('articleimage.index')->with('success', 'Article Image created successfully!');
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     /**

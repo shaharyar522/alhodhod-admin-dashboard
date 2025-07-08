@@ -32,7 +32,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link">
+            <a href="{{route('articleimage.index')}}" class="nav-link">
                 <i class="fa-solid fa-images"></i>
                 <span>Article Images</span>
             </a>
