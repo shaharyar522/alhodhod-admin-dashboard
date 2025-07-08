@@ -28,7 +28,7 @@
             </div>
         @endif
 
-        <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data" class="page-form">
+        <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data" >
             @csrf
 
             <div class="form-row">
@@ -116,14 +116,14 @@
 
 <!-- Create Confirmation Script -->
 <script>
-    document.querySelector('.page-form').addEventListener('submit', function (e) {
+    document.querySelector('form').addEventListener('submit', function (e) {
         e.preventDefault(); // Stop default form submission
 
         const form = this;
         const requiredFields = form.querySelectorAll('[required]');
         let isValid = true;
 
-        // ✅ Step 1: Validate fields
+        // Step 1: Validate required fields
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
                 isValid = false;
@@ -143,7 +143,7 @@
             return;
         }
 
-        // ✅ Step 2: Confirm from user
+        // Step 2: Confirm from user
         Swal.fire({
             title: 'Are you sure?',
             text: 'Are you sure you want to create this Article?',
@@ -156,8 +156,7 @@
             background: '#f0f8ff'
         }).then((result) => {
             if (result.isConfirmed) {
-
-                // ✅ Step 3: Show processing
+                // Optional: show a processing/loading dialog
                 Swal.fire({
                     title: 'Creating...',
                     text: 'Please wait while we create the article...',
@@ -171,29 +170,32 @@
                     }
                 });
 
-                // ✅ Step 4: Simulate server and show success
+                // Submit form to server (Laravel will handle redirect + session)
                 setTimeout(() => {
-                    Swal.close();
-
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'Your article has been created successfully!',
-                        icon: 'success',
-                        showConfirmButton: false,
-                        background: '#f0f8ff',
-                        timer: 1500
-                    });
-
-                    // ✅ Step 5: After success, fast redirect (no form re-submission)
-                    setTimeout(() => {
-                        window.location.href = "{{ route('articles.index') }}"; // Redirect directly
-                    }, 1600);
-
-                }, 1500);
+                    form.submit(); // 🔁 This will actually submit the form
+                }, 1000);
             }
         });
+
+        
     });
 </script>
+{{-- and last sweet aelrt message after the procecc then show tick successfully messag --}}
+{{-- Show SweetAlert success message after redirect --}}
+@if (session('success'))
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: @json(session('success')),
+            showConfirmButton: false,
+            timer: 2000,
+            background: '#f0f8ff'
+        });
+    </script>
+@endif
+
+
 
 {{-- CKEditor Script --}}
 <script>
@@ -233,43 +235,6 @@
     });
 </script>
 
-{{-- SweetAlert2 Success Message --}}
-@if (session('success'))
-<script>
-    Swal.fire({
-        icon: 'success',
-        title: 'Success',
-        text: '{{ session('success') }}',
-        timer: 2000,
-        showConfirmButton: false
-    });
-</script>
-@endif
 
-{{-- SweetAlert2 Delete Message --}}
-@if (session('delete_success'))
-<script>
-    Swal.fire({
-        icon: 'success',
-        title: 'Deleted',
-        text: '{{ session('delete_success') }}',
-        timer: 2000,
-        showConfirmButton: false
-    });
-</script>
-@endif
-
-{{-- SweetAlert2 Error Message --}}
-@if (session('error'))
-<script>
-    Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: '{{ session('error') }}',
-        timer: 2000,
-        showConfirmButton: false
-    });
-</script>
-@endif
 
 @endsection

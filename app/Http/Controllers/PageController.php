@@ -93,6 +93,6 @@ class PageController extends Controller
     {
         Page::destroy($id);
 
-        return redirect()->route('pages.index')->with('delete_success', 'Pages deleted successfully.');
+        return redirect()->route('pages.index')->with('success', 'Pages deleted successfully.');
     }
 }

@@ -52,7 +52,7 @@ class MenuController extends Controller
             'menu_fr'    => 'required|string',
             'menu_ar'    => 'required|string',
         ]);
-    
+
         try {
             // ✅ Save using same names
             Menu::create([
@@ -62,9 +62,8 @@ class MenuController extends Controller
                 'menu_fr'    => $request->menu_fr,
                 'menu_ar'    => $request->menu_ar,
             ]);
-    
+
             return redirect()->route('menus.index')->with('success', 'Menu created successfully!');
-            
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Menu creation failed: ' . $e->getMessage(), [
@@ -75,7 +74,7 @@ class MenuController extends Controller
                 ->with('error', 'Failed to create menu. Please try again.');
         }
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -115,19 +114,18 @@ class MenuController extends Controller
         ]);
 
         try {
-    
+
             $menu = Menu::findorFail($id);
 
-
+            $menu->page_id    = $request->page_id;   // update the page id
             $menu->menu_title = $request->menu_title;
             $menu->menu_en = $request->menu_en;
             $menu->menu_fr = $request->menu_fr;
             $menu->menu_ar = $request->menu_ar;
             $menu->save();
-    
-    
+
+
             return redirect()->route('menus.index')->with('success', 'Menu updated successfully!');
-            
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Menu update failed: ' . $e->getMessage(), [

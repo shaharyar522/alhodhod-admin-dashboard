@@ -66,7 +66,7 @@
                         <span>Create Menu</span>
                     </button>
 
-                <button type="reset" class="reset-btn" onclick="return confirmCreate()">
+                <button type="reset" class="reset-btn" >
                     <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
@@ -81,12 +81,14 @@
 
 <!-- Create Confirmation Script -->
 <script>
-    function confirmCreate() {
-        const form = document.querySelector('.page-form');
+    document.querySelector('form').addEventListener('submit', function (e) {
+        e.preventDefault(); // Stop default form submission
+
+        const form = this;
         const requiredFields = form.querySelectorAll('[required]');
         let isValid = true;
 
-        // Validate fields before confirmation
+        // Step 1: Validate required fields
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
                 isValid = false;
@@ -106,23 +108,23 @@
             return;
         }
 
-        // Step 1: Ask for confirmation
+        // Step 2: Confirm from user
         Swal.fire({
             title: 'Are you sure?',
-            text: 'Do you want to create this page?',
+            text: 'Are you sure you want to create this Page?',
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#10b981',
             cancelButtonColor: '#6b7280',
-            confirmButtonText: 'Yes, create it',
+            confirmButtonText: 'Create',
+            cancelButtonText: 'Cancel',
             background: '#f0f8ff'
         }).then((result) => {
             if (result.isConfirmed) {
-
-                // Step 2: Show processing alert
+                // Optional: show a processing/loading dialog
                 Swal.fire({
                     title: 'Creating...',
-                    text: 'Please wait while we create the page...',
+                    text: 'Please wait while we create the Page...',
                     icon: 'info',
                     allowOutsideClick: false,
                     allowEscapeKey: false,
@@ -133,32 +135,14 @@
                     }
                 });
 
-                // Simulate delay like backend saving (2 seconds)
+                // Submit form to server (Laravel will handle redirect + session)
                 setTimeout(() => {
-                    // Close loading
-                    Swal.close();
-
-                    // Step 3: Show success with tick
-                    Swal.fire({
-                        title: 'Success!',
-                        text: 'Your page has been created successfully.',
-                        icon: 'success',
-                        confirmButtonColor: '#10b981',
-                        background: '#f0f8ff'
-                    }).then(() => {
-                        // Redirect after success (optional)
-                        window.location.href = "{{ route('pages.index') }}"; // Change if needed
-                    });
-
-                }, 2000); // Simulate delay of 2 seconds
+                    form.submit(); // 🔁 This will actually submit the form
+                }, 1000);
             }
         });
-    }
 
-    // Remove original submit handler if you use custom submit
-    document.querySelector('.submit-btn').addEventListener('click', function (e) {
-        e.preventDefault();
-        confirmCreate();
+        
     });
 </script>
 

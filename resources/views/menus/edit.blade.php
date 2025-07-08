@@ -50,7 +50,7 @@
 
                     <div class="form-group">
                         <label for="menu_title">Menu Title</label>
-                        <input type="text" id="menu_title" name="menu_title" value="{{ old('menu_title', $menu->menu_title) }}" class="form-input" placeholder="Enter menu title" required>
+                        <input type="text" id="menu_title" name="menu_title" value="{{$menu->menu_title}}" class="form-input" placeholder="Enter menu title" required>
                         @error('menu_title')
                         <small class="text-danger">{{ $message }}</small>
                         @enderror
@@ -93,7 +93,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="submit-btn" onclick="return confirmUpdate()">
+                    <button type="submit" class="submit-btn" >
                         <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
@@ -112,84 +112,69 @@
     </div>
 
     <script>
-        document.querySelector('.page-form').addEventListener('submit', function (e) {
-            e.preventDefault(); // Stop default form submission
-    
-            const form = this;
-            const requiredFields = form.querySelectorAll('[required]');
-            let isValid = true;
-    
-            // ✅ Step 1: Validate fields
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    isValid = false;
-                    field.style.borderColor = '#ef4444';
-                } else {
-                    field.style.borderColor = '#e2e8f0';
-                }
-            });
-    
-            if (!isValid) {
-                Swal.fire({
-                    title: 'Validation Error',
-                    text: 'Please fill in all required fields',
-                    icon: 'error',
-                    confirmButtonColor: '#ef4444'
-                });
-                return;
-            }
-    
-            // ✅ Step 2: Confirm from user
-            Swal.fire({
-                title: 'Are you sure?',
-                text: 'Are you sure you want to Update this Menu?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#10b981',
-                cancelButtonColor: '#6b7280',
-                confirmButtonText: 'Create',
-                cancelButtonText: 'Cancel',
-                background: '#f0f8ff'
-            }).then((result) => {
-                if (result.isConfirmed) {
-    
-                    // ✅ Step 3: Show processing
-                    Swal.fire({
-                        title: 'Creating...',
-                        text: 'Please wait while we Updating the menu...',
-                        icon: 'info',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        showConfirmButton: false,
-                        background: '#f0f8ff',
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-    
-                    // ✅ Step 4: Simulate server and show success
-                    setTimeout(() => {
-                        Swal.close();
-    
-                        Swal.fire({
-                            title: 'Success!',
-                            text: 'Your menu has been Updated successfully!',
-                            icon: 'success',
-                            showConfirmButton: false,
-                            background: '#f0f8ff',
-                            timer: 1500
-                        });
-    
-                        // ✅ Step 5: After success, fast redirect (no form re-submission)
-                        setTimeout(() => {
-                            window.location.href = "{{ route('menus.index') }}"; // Redirect directly
-                        }, 1600);
-    
-                    }, 1500);
-                }
-            });
-        });
-    </script>
+    document.querySelector('.page-form').addEventListener('submit', function (e) {
+        e.preventDefault(); // Stop default for now
 
+        const form = this;
+        const requiredFields = form.querySelectorAll('[required]');
+        let isValid = true;
+
+        // ✅ Validate required fields
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.style.borderColor = '#ef4444';
+            } else {
+                field.style.borderColor = '#e2e8f0';
+            }
+        });
+
+        if (!isValid) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Please fill in all required fields',
+                icon: 'error',
+                confirmButtonColor: '#ef4444'
+            });
+            return;
+        }
+
+        // ✅ Ask for confirmation
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you want to update this Menu?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#10b981',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Yes, update it!',
+            cancelButtonText: 'Cancel',
+            background: '#f0f8ff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // ✅ Show processing message
+                Swal.fire({
+                    title: 'Updating...',
+                    text: 'Please wait while we update the Menu...',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    background: '#f0f8ff',
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                // ✅ Let the form submit *after* a small delay to show loader
+                setTimeout(() => {
+                    form.submit(); // Real submit now to Laravel controller
+                }, 1000);
+            }
+        });
+    });
+</script>
 
 @endsection
+
+

@@ -50,6 +50,21 @@
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
  @yield('scripts') <!-- ✅ Important for CKEditor in edit page -->
-</body>
 
+
+ <!-- SweetAlert Session Success -->
+@if(session('success'))
+  <script>
+    Swal.fire({
+      icon: 'success',
+      title: 'Success!',
+      text: '{{ session("success") }}',
+      timer: 2000,
+      showConfirmButton: false,
+      background: '#f0f8ff'
+    });
+  </script>
+@endif
+
+</body>
 </html>
