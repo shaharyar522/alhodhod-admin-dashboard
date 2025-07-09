@@ -44,7 +44,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link">
+            <a href="{{route('contact_message.index')}}" class="nav-link">
                 <i class="fa-solid fa-envelope-open-text"></i>
                 <span>Contact Messages</span>
             </a>
@@ -52,7 +52,7 @@
         <li>
             <a href="#" class="nav-link">
                 <i class="fa-solid fa-tags"></i>
-                <span>Meta Tags</span>
+                <span>Meta Tags (only for SEO)</span>
             </a>
         </li>
     </ul>

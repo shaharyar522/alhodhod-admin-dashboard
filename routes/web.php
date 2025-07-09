@@ -3,9 +3,11 @@
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleImageController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
+use App\Models\ContactMessage;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -52,6 +54,9 @@ Route::delete('/articleimage/{id}', [ArticleImageController::class, 'destroy'])-
 //wrok on contact 
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contacts/store', [ContactController::class, 'store'])->name('contacts.store');
+
+//work on contact message  contact_message.index'
+Route::get('/ContactMessage',[ContactMessageController::class, 'index'])->name('contact_message.index');
 
 
 Route::middleware('auth')->group(function () {

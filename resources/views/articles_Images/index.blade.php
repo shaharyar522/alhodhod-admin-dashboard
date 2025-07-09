@@ -5,6 +5,7 @@
 <!-- Custom Table CSS -->
 <link rel="stylesheet" href="{{ asset('styling/article-images-table.css') }}">
 
+
 <div class="pages-container">
     <!-- Header Section -->
     <div class="pages-header">

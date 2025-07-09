@@ -117,3 +117,15 @@
 .submit-button:hover {
     background: linear-gradient(to right, #6366f1, #4f46e5);
 }
+.pages-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.pages-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #374151;
+}

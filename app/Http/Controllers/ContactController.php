@@ -12,8 +12,10 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contact = Contact::get();
-        return view('contact_us.index');
+      // Get the first 5 records from DB
+        $contacts = Contact::orderBy('id')->take(5)->get();
+
+        return view('contact_us.index', compact('contacts'));
     }
 
     /**
@@ -28,23 +30,25 @@ class ContactController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $contacts = $request->input('contacts', []);
+{
+    $contacts = $request->input('contacts', []);
 
-    foreach ($contacts as $data) {
-        Contact::create([
-            'icon' => $data['icon'] ?? null,
-            'en_title' => $data['en_title'] ?? null,
-            'en_value' => $data['en_value'] ?? null,
-            'fr_title' => $data['fr_title'] ?? null,
-            'fr_value' => $data['fr_value'] ?? null,
-            'ar_title' => $data['ar_title'] ?? null,
-            'ar_value' => $data['ar_value'] ?? null,
-        ]);
+    // Fetch first 5 from DB
+    $existingContacts = Contact::orderBy('id')->take(5)->get();
+
+    foreach ($contacts as $index => $contactData) {
+        if (isset($existingContacts[$index])) {
+            // Update existing record
+            $existingContacts[$index]->update($contactData);
+        } else {
+            // Create new if less than 5 exist
+            Contact::create($contactData);
+        }
     }
 
-    return redirect()->back()->with('success', 'Contacts saved successfully!');
-    }
+    return redirect()->back()->with('success', 'Contacts updated successfully!');
+}
+
 
     /**
      * Display the specified resource.
