@@ -15,8 +15,8 @@
   <!-- Font Awesome Icons -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   {{-- bootsratp 5 for pagination --}}
- 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
   <!-- Custom Dashboard Styles -->
   <link rel="stylesheet" href="{{ asset('styling/dashboard.css')}}">
@@ -25,6 +25,7 @@
   {{-- pages css --}}
   <link rel="stylesheet" href="{{ asset('styling/pages.css') }}">
   <!-- CSRF Token -->
+  @stack('styles')
 
 </head>
 
@@ -38,30 +39,30 @@
     @yield('Main-content')
   </main>
 
-  <
+  < {{-- this is the arabic input handler --}} <script src="{{ asset('js/arabic-input-handler.js') }}">
+    </script>
 
-  {{-- this is the arabic input handler --}}
-  <script src="{{ asset('js/arabic-input-handler.js') }}"></script>
+    <!-- Session Messages for SweetAlert -->
 
-  <!-- Session Messages for SweetAlert -->
-  
-  <!-- Scripts -->
-  <script src="{{ asset('js/dashboard.js')}}"></script>
-{{-- uay hamray pass csrf token ka time period hian jo ky hum data ko store krany k leuy w8 krty hian 10 minutes krty hian 
- --}}
- {{-- sweet alert script --}}
-
-
- {{-- SweetAlert --}}
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
- @yield('scripts') <!-- ✅ Important for CKEditor in edit page -->
+    <!-- Scripts -->
+    <script src="{{ asset('js/dashboard.js')}}"></script>
+    {{-- uay hamray pass csrf token ka time period hian jo ky hum data ko store krany k leuy w8 krty hian 10 minutes
+    krty hian
+    --}}
+    {{-- sweet alert script --}}
 
 
- <!-- SweetAlert Session Success -->
-@if(session('success'))
-  <script>
-    Swal.fire({
+    {{-- SweetAlert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @yield('scripts')
+    <!-- ✅ Important for CKEditor in edit page -->
+
+
+    <!-- SweetAlert Session Success -->
+    @if(session('success'))
+    <script>
+      Swal.fire({
       icon: 'success',
       title: 'Success!',
       text: '{{ session("success") }}',
@@ -69,12 +70,13 @@
       showConfirmButton: false,
       background: '#f0f8ff'
     });
-  </script>
-@endif
+    </script>
+    @endif
 
-{{-- artilce script image when edit teh nshow a new image and replace the old image to view the user --}}
-{{-- in  article eidt page --}}
- @stack('article-image-prview')
+    {{-- artilce script image when edit teh nshow a new image and replace the old image to view the user --}}
+    {{-- in article eidt page --}}
+    @stack('article-image-prview')
 
 </body>
+
 </html>

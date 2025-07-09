@@ -1,42 +1,42 @@
 @extends('layouts.app')
 
 @section('Main-content')
-<link rel="stylesheet" href="{{ asset('styling/contact-info.css') }}">
 
-<div class="pages-container contact-info-container">
-    <!-- Header -->
-    <div class="pages-header">
-        <h1 class="pages-title">Contact Information</h1>
-    </div>
+@push('styles')
+  <link rel="stylesheet" href="{{ asset('styling/contact-info.css') }}">
+@endpush
 
-    <!-- Contact Info Table -->
-    <form action="" method="POST">
+
+<div class="contact-wrapper">
+    <h2 class="contact-title">Contact Information</h2>
+
+    <form action="{{ route('contacts.store') }}" method="POST">
         @csrf
-        <div class="pages-table-container contact-info-table-container">
-            <table class="pages-table contact-info-table">
+        <div class="table-responsive">
+            <table class="contact-table">
                 <thead>
                     <tr>
-                        <th>English Title</th>
-                        <th>English Value</th>
-                        <th>French Title</th>
-                        <th>French Value</th>
-                        <th>Arabic Title</th>
-                        <th>Arabic Value</th>
+                        <th>EN Title</th>
+                        <th>EN Value</th>
+                        <th>FR Title</th>
+                        <th>FR Value</th>
+                        <th>AR Title</th>
+                        <th>AR Value</th>
                         <th>Icon</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input type="text" name="contacts[][en_title]" value="" class="contact-input" placeholder="English Title"></td>
-                        <td><input type="text" name="contacts[][en_value]" value="" class="contact-input" placeholder="English Value"></td>
-                        <td><input type="text" name="contacts[][fr_title]" value="" class="contact-input" placeholder="French Title"></td>
-                        <td><input type="text" name="contacts[][fr_value]" value="" class="contact-input" placeholder="French Value"></td>
-                        <td><input type="text" name="contacts[][ar_title]" value="" class="contact-input" placeholder="Arabic Title" dir="rtl"></td>
-                        <td><input type="text" name="contacts[][ar_value]" value="" class="contact-input" placeholder="Arabic Value" dir="rtl"></td>
-                        <td class="icon-cell">
-                            <i class="fas fa-envelope contact-icon"></i>
-                            <select class="icon-select contact-input" style="width:auto;min-width:120px;margin-left:8px;">
-                                <option value="fa-envelope">Envelope</option>
+                        <td><input type="text" name="contacts[0][en_title]" placeholder="EN Title" class="input-field"></td>
+                        <td><input type="text" name="contacts[0][en_value]" placeholder="EN Value" class="input-field"></td>
+                        <td><input type="text" name="contacts[0][fr_title]" placeholder="FR Title" class="input-field"></td>
+                        <td><input type="text" name="contacts[0][fr_value]" placeholder="FR Value" class="input-field"></td>
+                        <td><input type="text" name="contacts[0][ar_title]" placeholder="AR Title" class="input-field" dir="rtl"></td>
+                        <td><input type="text" name="contacts[0][ar_value]" placeholder="AR Value" class="input-field" dir="rtl"></td>
+                        <td class="icon-select-wrapper">
+                            <i class="fas fa-envelope icon-preview" id="icon-preview-0"></i>
+                            <select name="contacts[0][icon]" class="icon-select" data-index="0">
+                                <option value="fa-envelope" selected>Envelope</option>
                                 <option value="fa-map-marker">Map Marker</option>
                                 <option value="fa-globe">Globe</option>
                                 <option value="fa-fax">Fax</option>
@@ -47,34 +47,28 @@
                                 <option value="fa-envelope-open">Envelope Open</option>
                                 <option value="fa-address-card">Address Card</option>
                             </select>
-                            <input type="hidden" name="contacts[][icon]" value="fa-envelope">
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Save Button -->
-        <div class="form-actions contact-form-actions">
-            <button type="submit" class="submit-btn contact-submit-btn">
-                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                <span>Save Changes</span>
+        <div class="form-footer">
+            <button type="submit" class="submit-button">
+                <i class="fas fa-save"></i> Save Changes
             </button>
         </div>
     </form>
 </div>
+
 <script>
-// Update icon when select changes
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.icon-select').forEach(function(select) {
-            select.addEventListener('change', function() {
-                var icon = this.value;
-                var iconElem = this.parentElement.querySelector('i');
-                var hiddenInput = this.parentElement.querySelector('input[type="hidden"]');
-                iconElem.className = 'fas ' + icon + ' contact-icon';
-                hiddenInput.value = icon;
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.icon-select').forEach(select => {
+            select.addEventListener('change', function () {
+                const iconClass = this.value;
+                const index = this.dataset.index;
+                const iconElem = document.getElementById('icon-preview-' + index);
+                iconElem.className = 'fas ' + iconClass + ' icon-preview';
             });
         });
     });

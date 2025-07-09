@@ -29,7 +29,21 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $contacts = $request->input('contacts', []);
+
+    foreach ($contacts as $data) {
+        Contact::create([
+            'icon' => $data['icon'] ?? null,
+            'en_title' => $data['en_title'] ?? null,
+            'en_value' => $data['en_value'] ?? null,
+            'fr_title' => $data['fr_title'] ?? null,
+            'fr_value' => $data['fr_value'] ?? null,
+            'ar_title' => $data['ar_title'] ?? null,
+            'ar_value' => $data['ar_value'] ?? null,
+        ]);
+    }
+
+    return redirect()->back()->with('success', 'Contacts saved successfully!');
     }
 
     /**

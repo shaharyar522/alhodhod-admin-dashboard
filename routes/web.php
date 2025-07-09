@@ -51,6 +51,7 @@ Route::delete('/articleimage/{id}', [ArticleImageController::class, 'destroy'])-
 
 //wrok on contact 
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::post('/contacts/store', [ContactController::class, 'store'])->name('contacts.store');
 
 
 Route::middleware('auth')->group(function () {
