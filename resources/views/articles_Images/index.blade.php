@@ -58,7 +58,8 @@
                                 <span>Edit</span>
                             </a>
 
-                            <form action="" method="POST" class="delete-form" style="display: inline;">
+                            <form action="{{route('articleimage.destroy',$image->id)}}" method="POST"
+                                class="delete-form" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="delete-btn" onclick="confirmDelete(this)">
@@ -77,6 +78,9 @@
                 <!-- Repeat rows dynamically -->
             </tbody>
         </table>
+        <div class="mt-3 d-flex justify-content-center">
+            {{ $articleImages->links() }}
+        </div>
     </div>
 
 </div>
@@ -100,6 +104,54 @@ function confirmDelete(button) {
 </script>
 
 <script>
+    function confirmDelete(button) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Are you sure you want to delete this?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef4444',
+            cancelButtonColor: '#6b7280',
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel',
+            background: '#ffffff'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Show loading message
+                Swal.fire({
+                    title: 'Deleting...',
+                    text: 'Deleting...',
+                    icon: 'info',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                
+                // Submit the form
+                button.closest('form').submit();
+            }
+        });
+    }
+</script>
+@if(session('success'))
+<script>
+    Swal.fire({
+      icon: 'success',
+      title: 'Success!',
+      text: '{{ session("success") }}',
+      timer: 2000,
+      showConfirmButton: false,
+      background: '#f0f8ff'
+    });
+</script>
+@endif
+
+
+
+<script>
     function copyToClipboard(elementId) {
     const input = document.getElementById(elementId);
     input.select();
@@ -118,5 +170,7 @@ function confirmDelete(button) {
 }
 </script>
 @endsection
+
+
 
 {{-- articlesimages/article_image/1751987541_Untitled design (6).png --}}

@@ -97,7 +97,7 @@
         // Step 2: Confirm from user
         Swal.fire({
             title: 'Are you sure?',
-            text: 'Are you sure you want to create this Menu?',
+            text: 'Are you sure you want to create this Artilce Image?',
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#10b981',
@@ -110,7 +110,7 @@
                 // Optional: show a processing/loading dialog
                 Swal.fire({
                     title: 'Creating...',
-                    text: 'Please wait while we create the Menu...',
+                    text: 'Please wait while we create the Article Image...',
                     icon: 'info',
                     allowOutsideClick: false,
                     allowEscapeKey: false,

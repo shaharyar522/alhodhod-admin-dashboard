@@ -38,7 +38,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link">
+            <a href="{{route('contact.index')}}" class="nav-link">
                 <i class="fa-solid fa-hands-praying"></i>
                 <span>Contact Us</span>
             </a>

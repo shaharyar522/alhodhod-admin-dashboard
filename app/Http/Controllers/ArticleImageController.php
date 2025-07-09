@@ -12,7 +12,7 @@ class ArticleImageController extends Controller
      */
     public function index()
     {
-        $articleImages = ArticleImage::get();
+        $articleImages = ArticleImage::orderBy('created_at', 'desc')->paginate(5);
         return view('articles_Images.index', compact('articleImages'));
     }
 
@@ -32,7 +32,7 @@ class ArticleImageController extends Controller
     {
 
         $request->validate([
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:6048',
         ]);
         try {
             if ($request->hasFile('image')) {
@@ -92,6 +92,11 @@ class ArticleImageController extends Controller
             // 3. Handle new file upload   or If user uploads a new image
 
             if ($request->hasFile('image')) {
+
+                if ($ArticleImage->image && file_exists(public_path($ArticleImage->image))) {
+                    unlink(public_path($ArticleImage->image));
+                }
+
                 $article_image = $request->file('image');
                 $article_image_OriginalName = time() . '_' . $article_image->getClientOriginalName();
                 $article_image->move(public_path('articlesimages/article_image'), $article_image_OriginalName);
@@ -114,8 +119,19 @@ class ArticleImageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ArticleImage $articleImage)
-    {
-        //
+   public function destroy($id)
+{
+    $articleImage = ArticleImage::findOrFail($id);
+
+    // Delete the image file from disk if it exists
+    if ($articleImage->Image_path && file_exists(public_path($articleImage->Image_path))) {
+        unlink(public_path($articleImage->Image_path));
     }
+
+    // Now delete the database record
+    $articleImage->delete();
+
+    return redirect()->route('articleimage.index')->with('success', 'Article Image deleted successfully!');
+}
+
 }

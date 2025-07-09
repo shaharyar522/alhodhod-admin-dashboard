@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleImageController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
@@ -45,6 +46,11 @@ Route::post('/articleimage', [ArticleImageController::class, 'store'])->name('ar
 Route::get('/articleimage/{id}/edit', [ArticleImageController::class, 'edit'])->name('articleimage.edit');
 Route::put('/articleimage/{id}/update', [ArticleImageController::class, 'update'])->name('articleimage.update');
 Route::delete('/articleimage/{id}', [ArticleImageController::class, 'destroy'])->name('articleimage.destroy');
+
+
+
+//wrok on contact 
+Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 
 
 Route::middleware('auth')->group(function () {

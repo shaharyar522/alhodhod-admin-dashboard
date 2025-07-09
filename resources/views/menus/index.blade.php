@@ -78,6 +78,9 @@
                 @endforelse
             </tbody>
         </table>
+        <div class="mt-3 d-flex justify-content-center">
+                        {{  $menus->links() }}
+                    </div>
     </div>
 </div>
 

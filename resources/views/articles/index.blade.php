@@ -77,6 +77,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="mt-3 d-flex justify-content-center">
+                        {{  $articles->links() }}
+                    </div>
         </div>
     </div>
 </div>

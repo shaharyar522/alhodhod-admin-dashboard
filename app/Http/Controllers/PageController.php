@@ -12,7 +12,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        $pages = Page::all();
+        $pages = Page::paginate(5);
         return view('pages.index', compact('pages'));
     }
 

@@ -376,3 +376,63 @@ select.form-input {
         min-width: 100%;
     }
 } 
+
+/* Universal Responsive Layouts for All Devices */
+@media (max-width: 1200px) {
+  .form-container {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 16px !important;
+    box-sizing: border-box;
+  }
+}
+@media (max-width: 950px) {
+  .form-container {
+    padding: 12px !important;
+  }
+}
+@media (max-width: 768px) {
+  .form-container {
+    padding: 8px !important;
+  }
+}
+@media (max-width: 600px) {
+  .form-container {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 4px !important;
+    box-sizing: border-box;
+  }
+  .form-row, .form-header, .form-actions {
+    flex-direction: column !important;
+    gap: 8px !important;
+    align-items: flex-start !important;
+  }
+  .form-group, .form-input, .form-textarea {
+    font-size: 13px !important;
+  }
+}
+@media (max-width: 400px) {
+  .form-container {
+    padding: 2px !important;
+    font-size: 13px;
+  }
+}
+@media (min-width: 1440px) {
+  .form-container {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+}
+@media (min-width: 1920px) {
+  .form-container {
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+}
+@media (min-width: 2560px) {
+  .form-container {
+    max-width: 2400px;
+    margin: 0 auto;
+  }
+} 

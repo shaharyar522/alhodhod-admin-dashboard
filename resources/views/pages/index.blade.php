@@ -65,6 +65,9 @@
                     @endforeach
                 </tbody>
             </table>
+             <div class="mt-3 d-flex justify-content-center">
+                        {{  $pages->links() }}
+                    </div>
         </div>
     </div>
 
