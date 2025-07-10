@@ -107,9 +107,6 @@ class ArticleController extends Controller
     public function update(Request $request, $id)
     {
 
-
-
-
         $request->validate([
             'language' => 'required|string|in:en,fr,ar',
             'article_title' => 'required|string|max:255',
