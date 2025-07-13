@@ -5,14 +5,20 @@ use App\Http\Controllers\ArticleImageController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\MetatagController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
 use App\Models\ContactMessage;
 use Illuminate\Support\Facades\Route;
+use Mockery\Generator\Method;
 
 Route::get('/', function () {
     return view('dashboard');
 })->name('home');
+
+//note that es ko maain resource controller say bhi kr satka tha laken uay apni calarification k leuy 
+ //seprate route ko banaya hian  
+
 
 //working on pages
 Route::get('/pages', [PageController::class, 'index'])->name('pages.index');
@@ -57,6 +63,21 @@ Route::post('/contacts/store', [ContactController::class, 'store'])->name('conta
 
 //work on contact message  contact_message.index'
 Route::get('/ContactMessage',[ContactMessageController::class, 'index'])->name('contact_message.index');
+
+
+//work on meta tag
+Route::get('/Metatag',[MetatagController::class, 'index'])->name('metatag.index');
+Route::get('/Metatag/Create', [MetatagController::class, 'create'])->name('metatag.create');
+Route::post('/Metatag', [MetatagController::class, 'store'])->name('metatag.store');
+Route::get('/Metatag/{id}/edit', [MetatagController::class, 'edit'])->name('metatag.edit');
+Route::put('/Metatag/{id}/update', [MetatagController::class, 'update'])->name('metatag.update');
+Route::delete('/Metatag/{id}/delete',[MetatagController::class, 'destroy'])->name('metatag.destroy');
+
+
+
+
+
+
 
 
 Route::middleware('auth')->group(function () {

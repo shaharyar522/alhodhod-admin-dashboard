@@ -14,6 +14,12 @@
             </a>
         </li>
         <li>
+            <a href="{{route('home')}}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                <i class="fa-solid fa-kaaba"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li>
             <a href="{{route('pages.index')}}" class="nav-link">
                 <i class="fa-solid fa-file"></i>
                 <span>Pages</span>
@@ -50,7 +56,7 @@
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link">
+            <a href="{{route('metatag.index')}}" class="nav-link">
                 <i class="fa-solid fa-tags"></i>
                 <span>Meta Tags (only for SEO)</span>
             </a>

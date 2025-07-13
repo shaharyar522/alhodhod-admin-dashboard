@@ -119,19 +119,18 @@ class ArticleImageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-   public function destroy($id)
-{
-    $articleImage = ArticleImage::findOrFail($id);
+    public function destroy($id)
+    {
+        $articleImage = ArticleImage::find($id);
 
-    // Delete the image file from disk if it exists
-    if ($articleImage->Image_path && file_exists(public_path($articleImage->Image_path))) {
-        unlink(public_path($articleImage->Image_path));
+        //Delete the image file from disk if it exists
+        if ($articleImage->Image_path && file_exists(public_path($articleImage->Image_path))) 
+        {
+            unlink(public_path($articleImage->Image_path));
+        }
+
+        // // Now delete the database record
+        $articleImage->delete();
+        return redirect()->route('articleimage.index')->with('success', 'Article Image deleted successfully!');
     }
-
-    // Now delete the database record
-    $articleImage->delete();
-
-    return redirect()->route('articleimage.index')->with('success', 'Article Image deleted successfully!');
-}
-
 }
