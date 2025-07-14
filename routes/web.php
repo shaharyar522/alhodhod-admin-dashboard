@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleImageController;
+use App\Http\Controllers\BannerAddController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContactMessageController;
 use App\Http\Controllers\MenuController;
@@ -72,6 +73,18 @@ Route::post('/Metatag', [MetatagController::class, 'store'])->name('metatag.stor
 Route::get('/Metatag/{id}/edit', [MetatagController::class, 'edit'])->name('metatag.edit');
 Route::put('/Metatag/{id}/update', [MetatagController::class, 'update'])->name('metatag.update');
 Route::delete('/Metatag/{id}/delete',[MetatagController::class, 'destroy'])->name('metatag.destroy');
+
+
+//work on banner_adds  i am using in this banner add resource controller
+
+ 
+
+// Route::resource('banner_add', [BannerAddController::class]);
+
+   Route::get('/BannerAdds',[BannerAddController::class , 'index'])->name(('banner_add.index'));
+
+
+ 
 
 
 

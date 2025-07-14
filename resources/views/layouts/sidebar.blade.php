@@ -13,10 +13,10 @@
                 <span>Dashboard</span>
             </a>
         </li>
-        <li>
-            <a href="{{route('home')}}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                <i class="fa-solid fa-kaaba"></i>
-                <span>Dashboard</span>
+      <li>
+            <a href="{{route('banner_add.index')}}" class="nav-link">
+                <i class="fa-solid fa-image"></i>  <!-- Font Awesome Image Icon -->
+                <span>Banners</span>
             </a>
         </li>
         <li>

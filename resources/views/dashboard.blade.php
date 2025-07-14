@@ -8,6 +8,7 @@
 
 <!-- Hero Section -->
 <section class="hero">
+  
     <div class="islamic-pattern"></div>
     <div class="star-field" id="starField"></div>
     <div class="geometric-overlay"></div>
