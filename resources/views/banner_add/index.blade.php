@@ -4,12 +4,10 @@
 <!-- Add CSS Link -->
 
 @push('styles')
+
 <link rel="stylesheet" href="{{ asset('styling/banneradd.css') }}">
 <link rel="stylesheet" href="{{ asset('styling/newbanneradd_Modal.css') }}">
 
-<style>
-
-</style>
 @endpush
 
 <div class="pages-container">
@@ -64,44 +62,89 @@
                     <th>Action</th>
                 </tr>
             </thead>
+
             <tbody>
+                @foreach($adds as $add)
                 <tr>
+                    <!-- View Button with Modal Trigger -->
                     <td>
-                        <a href="{{ asset('uploads/sample.jpg') }}" target="_blank"
-                            class="btn btn-sm btn-outline-primary">
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+                            class="btn btn-sm btn-outline-primary view-image-btn" data-id="{{ $add->id }}">
                             View
-                        </a>
+                        </button>
                     </td>
 
-                    <td>Sample Text</td>
-                    <td><a href="https://example.com">example.com</a></td>
-                    <td>42</td>
-                    <td>Title EN</td>
-                    <td>Title FR</td>
-                    <td>Title AR</td>
-                    <td><span class="badge bg-success">Active</span></td>
+
+
+
+
+                    <!-- Ad Text -->
+                    <td>{{ $add->ad_text }}</td>
+
+                    <!-- Ad Link -->
+                    <td><a href="{{ $add->ad_link }}" target="_blank">{{ parse_url($add->ad_link, PHP_URL_HOST) }}</a>
+                    </td>
+
+                    <!-- Click Count -->
+                    <td>{{ $add->clicks ?? 0 }}</td>
+                    {{-- ========start language ========== --}}
+
+                    <td class="text-center">
+                        {!! $add->en == 1 ? '<span class="text-success">✅</span>' : '<span class="text-danger">❌</span>'
+                        !!}
+                    </td>
+
+
+                    <td class="text-center">
+                        {!! $add->fr == 1 ? '<span class="text-success">✅</span>' : '<span class="text-danger">❌</span>'
+                        !!}
+                    </td>
+
+
+                    <td class="text-center">
+                        {!! $add->ar == 1 ? '<span class="text-success">✅</span>' : '<span class="text-danger">❌</span>'
+                        !!}
+                    </td>
+
+
+                    <td class="text-center">
+                        @if($add->ad_status == 1)
+                        <span class="badge bg-success">Active</span>
+                        @else
+                        <span class="badge bg-danger">Inactive</span>
+                        @endif
+                    </td>
+                    <!-- Action -->
                     <td>
                         <div class="action-buttons">
                             <form action="" method="POST" class="delete-form"
-                                style="display: inline-block; width: 100%; text-align: center;  padding-left: 55px;">
+                                style="display: inline-block; width: 100%; text-align: center; padding-left: 55px;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="button" class="delete-btn" onclick="confirmDelete(this)">
                                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                        </path>
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                     </svg>
                                     <span>Delete</span>
                                 </button>
                             </form>
-
                         </div>
                     </td>
                 </tr>
+                @endforeach
             </tbody>
+
         </table>
+
+        <div class="d-flex justify-content-center align-items-center mt-4 flex-wrap gap-3">
+            <nav class="modern-pagination">
+                {!! $adds->links('pagination::bootstrap-5') !!}
+            </nav>
+        </div>
+
     </div>
+</div>
 </div>
 
 <!-- ✅ Delete Confirmation Script -->
@@ -139,6 +182,34 @@
 
 
 
+
+
+
+<!-- Modal for Image -->
+
+<div class="modal fade" id="staticBackdrop" ...>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Ad Preview</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center" id="modal-body-content">
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
 {{-- ========= start modal in when click to ad new advertisement ======= --}}
 <div class="modal fade" id="advertisementModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -148,7 +219,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="adForm" action="{{ route('ads.store') }}" method="POST" enctype="multipart/form-data">
+                <form id="adForm" action="{{ route('ads.store') }}" method="POST" class="page-form"
+                    enctype="multipart/form-data">
                     @csrf
 
                     <!-- Ad Type -->
@@ -220,21 +292,22 @@
 
 
                     <!-- Submit -->
-                     <button type="submit" class="submit-btn" onclick="return confirmCreate()">
+                    <button type="submit" class="submit-btn" onclick="return confirmCreate()">
                         <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
+                            </path>
                         </svg>
-                        <span>Create Menu</span>
+                        <span>Create Add Banner</span>
                     </button>
 
-                <button type="reset" class="reset-btn" >
-                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
-                        </path>
-                    </svg>
-                    <span>Reset Form</span>
-                </button>
+                    <button type="reset" class="reset-btn">
+                        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                            </path>
+                        </svg>
+                        <span>Reset Form</span>
+                    </button>
                 </form>
 
             </div>
@@ -242,10 +315,10 @@
     </div>
 </div>
 
-  {{-- model dta sotre in db sweet aler tmessage --}}
+{{-- model dta sotre in db sweet aler tmessage --}}
 
 
-   <script>
+<script>
     document.querySelector('form').addEventListener('submit', function (e) {
         e.preventDefault(); // Stop default form submission
 
@@ -311,96 +384,39 @@
     });
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('.view-image-btn');
+    const modalBody = document.getElementById('modal-body-content');
 
+    buttons.forEach(button => {
+        button.addEventListener('click', function () {
+            const adId = this.getAttribute('data-id');
+            modalBody.innerHTML = '<p>Loading preview...</p>';
 
-
-<style>
-    /* Button Styling */
-.submit-btn, .reset-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem 2rem;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    min-width: 180px;
-    justify-content: center;
-}
-
-.btn-icon {
-    width: 20px;
-    height: 20px;
-    transition: transform 0.3s ease;
-}
-
-.submit-btn .btn-icon {
-    /* No rotation animation - icon stays still */
-}
-
-/* Submit Button */
-.submit-btn {
-    background: linear-gradient(45deg, #4f46e5, #4338ca, #6366f1);
-    background-size: 200% 200%;
-    color: white;
-    border: none;
-    position: relative;
-    overflow: hidden;
-    animation: submitButtonFloat 3s ease-in-out infinite, gradientMove 6s ease infinite;
-    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
-}
-
-.submit-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: 0.5s;
-}
-
-.submit-btn:hover::before {
-    left: 100%;
-}
-
-.submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-}
-
-.submit-btn:active {
-    transform: translateY(0);
-}
-
-/* Reset Button */
-.reset-btn {
-    background: white;
-    color: #64748b;
-    border: 2px solid #e2e8f0;
-    position: relative;
-    overflow: hidden;
-}
-
-.reset-btn:hover {
-    background: #f8fafc;
-    color: #475569;
-    border-color: #cbd5e1;
-}
-
-.reset-btn .btn-icon {
-    transition: transform 0.5s ease;
-}
-
-.reset-btn:hover .btn-icon {
-    transform: rotate(180deg);
-}
-</style>
-
-
-
-
+            fetch(`/ads/${adId}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists && data.image_url) {
+                        modalBody.innerHTML = `
+                            <img src="${data.image_url}" alt="Ad Image" class="img-fluid rounded" style="max-height: 400px;">
+                            <p class="mt-2"><strong>${data.title}</strong></p>
+                        `;
+                    } else {
+                        modalBody.innerHTML = `
+                            <div class="text-danger">
+                                <i class="fas fa-image fa-3x"></i>
+                                <p><strong>No image found for this advertisement.</strong></p>
+                            </div>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    modalBody.innerHTML = '<p class="text-danger">Error loading image preview.</p>';
+                    console.error('Fetch error:', error);
+                });
+        });
+    });
+});
+</script>
 @endsection

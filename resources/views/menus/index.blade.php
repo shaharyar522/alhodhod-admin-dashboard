@@ -78,9 +78,11 @@
                 @endforelse
             </tbody>
         </table>
-        <div class="mt-3 d-flex justify-content-center">
-                        {{  $menus->links() }}
-                    </div>
+                     <div class="d-flex justify-content-center align-items-center mt-4 flex-wrap gap-3">
+            <nav class="modern-pagination">
+                {!! $menus->links('pagination::bootstrap-5') !!}
+            </nav>
+        </div>
     </div>
 </div>
 

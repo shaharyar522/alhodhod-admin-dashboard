@@ -18,7 +18,7 @@ Route::get('/', function () {
 })->name('home');
 
 //note that es ko maain resource controller say bhi kr satka tha laken uay apni calarification k leuy 
- //seprate route ko banaya hian  
+//seprate route ko banaya hian  
 
 
 //working on pages
@@ -31,9 +31,9 @@ Route::delete('/pages/{id}/delete', [PageController::class, 'destroy'])->name('p
 
 
 //working on menus
-Route::get('/menus' , [MenuController::class , 'index'])->name('menus.index');
-Route::get('/menus/create' , [MenuController::class, 'create'])->name('menus.create');
-Route::post('/menus' , [MenuController::class, 'store'])->name('menus.store');
+Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
+Route::get('/menus/create', [MenuController::class, 'create'])->name('menus.create');
+Route::post('/menus', [MenuController::class, 'store'])->name('menus.store');
 Route::get('/menus/{id}/edit', [MenuController::class, 'edit'])->name('menus.edit');
 Route::put('/menus/{id}/update', [MenuController::class, 'update'])->name('menus.update');
 Route::delete('/menus/{id}/delete', [MenuController::class, 'destroy'])->name('menus.destroy');
@@ -63,29 +63,30 @@ Route::get('/contact', [ContactController::class, 'index'])->name('contact.index
 Route::post('/contacts/store', [ContactController::class, 'store'])->name('contacts.store');
 
 //work on contact message  contact_message.index'
-Route::get('/ContactMessage',[ContactMessageController::class, 'index'])->name('contact_message.index');
+Route::get('/ContactMessage', [ContactMessageController::class, 'index'])->name('contact_message.index');
 
 
 //work on meta tag
-Route::get('/Metatag',[MetatagController::class, 'index'])->name('metatag.index');
+Route::get('/Metatag', [MetatagController::class, 'index'])->name('metatag.index');
 Route::get('/Metatag/Create', [MetatagController::class, 'create'])->name('metatag.create');
 Route::post('/Metatag', [MetatagController::class, 'store'])->name('metatag.store');
 Route::get('/Metatag/{id}/edit', [MetatagController::class, 'edit'])->name('metatag.edit');
 Route::put('/Metatag/{id}/update', [MetatagController::class, 'update'])->name('metatag.update');
-Route::delete('/Metatag/{id}/delete',[MetatagController::class, 'destroy'])->name('metatag.destroy');
+Route::delete('/Metatag/{id}/delete', [MetatagController::class, 'destroy'])->name('metatag.destroy');
 
 
 //work on banner_adds  i am using in this banner add resource controller
 
- 
+
 
 // Route::resource('banner_add', [BannerAddController::class]);
 
-   Route::get('/BannerAdds',[BannerAddController::class , 'index'])->name(('ads.index'));
-   Route::post('/Banneradd',[BannerAddController::class , 'store'])->name('ads.store');
+Route::get('/BannerAdds', [BannerAddController::class, 'index'])->name(('ads.index'));
+Route::post('/Banneradd', [BannerAddController::class, 'store'])->name('ads.store');
+Route::get('/ads/{id}', [BannerAddController::class, 'show'])->name('ads.show');
 
 
- 
+
 
 
 
@@ -100,4 +101,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
