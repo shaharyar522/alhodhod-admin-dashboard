@@ -81,7 +81,8 @@ Route::delete('/Metatag/{id}/delete',[MetatagController::class, 'destroy'])->nam
 
 // Route::resource('banner_add', [BannerAddController::class]);
 
-   Route::get('/BannerAdds',[BannerAddController::class , 'index'])->name(('banner_add.index'));
+   Route::get('/BannerAdds',[BannerAddController::class , 'index'])->name(('ads.index'));
+   Route::post('/Banneradd',[BannerAddController::class , 'store'])->name('ads.store');
 
 
  

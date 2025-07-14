@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('banner_adds', function (Blueprint $table) {
             $table->id();
-            $table->string('ad_type')->nullable();      // Type of ad (e.g., banner, text, etc.)
-            $table->string('add_url')->nullable();      // Image or media URL 
-            $table->text('add_text')->nullable();
-            $table->string('add_link')->nullable();
-            $table->text('en')->nullable();
-            $table->text('fr')->nullable();
-            $table->text('ar')->nullable();
-            $table->integer('add_clicks')->default(0);
-            $table->boolean('add_status')->default(1);  //  1 par uay active hnga or 0 par uay in active hnga
-            $table->string('in')->nullable();
+
+            $table->integer('ad_type')->unsigned()->default(1);
+            $table->text('ad_url');
+            $table->text('ad_text');
+            $table->text('ad_link');
+            $table->boolean('en')->unsigned();
+            $table->boolean('fr')->unsigned();
+            $table->boolean('ar')->unsigned();
+            $table->integer('ad_clicks')->unsigned()->default(0);
+            $table->boolean('ad_status')->unsigned()->default(1);
             $table->timestamps();
         });
     }

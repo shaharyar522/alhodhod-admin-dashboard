@@ -14,7 +14,7 @@
             </a>
         </li>
       <li>
-            <a href="{{route('banner_add.index')}}" class="nav-link">
+            <a href="{{route('ads.index')}}" class="nav-link">
                 <i class="fa-solid fa-image"></i>  <!-- Font Awesome Image Icon -->
                 <span>Banners</span>
             </a>
