@@ -124,8 +124,18 @@ class BannerAddController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(BannerAdd $bannerAdd)
+    public function destroy($id)
     {
-        //
+         $ad = BannerAdd::findOrFail($id);
+
+    // Delete image file if it exists
+    if ($ad->ad_url && file_exists(public_path($ad->ad_url))) {
+        unlink(public_path($ad->ad_url));
+    }
+
+    // Delete the record
+    $ad->delete();
+
+    return redirect()->route('ads.index')->with('success', 'Advertisement deleted successfully.');
     }
 }

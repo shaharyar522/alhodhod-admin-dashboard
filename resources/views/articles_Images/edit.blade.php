@@ -9,6 +9,7 @@
 
         <div class="form-header">
             <h2>Update New Article Image</h2>
+            {{Auth::user()->name}}
         </div>
 
         <!-- Display any errors -->

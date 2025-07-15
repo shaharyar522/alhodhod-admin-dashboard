@@ -117,7 +117,7 @@
                     <!-- Action -->
                     <td>
                         <div class="action-buttons">
-                            <form action="" method="POST" class="delete-form"
+                            <form action="{{ route('ads.destroy', $add->id) }}" method="POST" class="delete-form"
                                 style="display: inline-block; width: 100%; text-align: center; padding-left: 55px;">
                                 @csrf
                                 @method('DELETE')
@@ -385,7 +385,7 @@
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
     const buttons = document.querySelectorAll('.view-image-btn');
     const modalBody = document.getElementById('modal-body-content');
 

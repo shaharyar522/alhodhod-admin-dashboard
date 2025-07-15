@@ -13,9 +13,9 @@
                 <span>Dashboard</span>
             </a>
         </li>
-      <li>
+        <li>
             <a href="{{route('ads.index')}}" class="nav-link">
-                <i class="fa-solid fa-image"></i>  <!-- Font Awesome Image Icon -->
+                <i class="fa-solid fa-image"></i> <!-- Font Awesome Image Icon -->
                 <span>Banners</span>
             </a>
         </li>
