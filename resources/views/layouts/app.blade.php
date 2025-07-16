@@ -81,5 +81,14 @@
   <!-- Bootstrap JS (at bottom before </body>) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   @stack('script')
+
+
+  {{-- this is the custom set time internval because when csrf token seestion time end thry refresh aain  --}}
+  <script>
+    setInterval(() => {
+        fetch('{{ route('home') }}', { credentials: 'same-origin' });
+    }, 600000); // Refresh every 10 min
+</script>
+
 </body>
 </html>

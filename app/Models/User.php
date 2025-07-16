@@ -10,6 +10,9 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasFactory; 
+
+     // ✅ Tell Laravel to use the correct table
+    protected $table = 'users';
     
     protected $fillable = [
         'name',

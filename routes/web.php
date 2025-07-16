@@ -10,6 +10,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MetatagController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
 // ✅ Custom Login/Logout Routes
@@ -28,7 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/pages/create', [PageController::class, 'create'])->name('pages.create');
     Route::post('/pages', [PageController::class, 'store'])->name('pages.store');
     Route::get('/pages/{id}/edit', [PageController::class, 'edit'])->name('pages.edit');
-    Route::put('/pages/{id}/update', [PageController::class, 'update'])->name('pages.update');
+    Route::put('/pages/{id}', [PageController::class, 'update'])->name('pages.update');
     Route::delete('/pages/{id}/delete', [PageController::class, 'destroy'])->name('pages.destroy');
 
     // ✅ Menus
@@ -36,7 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/menus/create', [MenuController::class, 'create'])->name('menus.create');
     Route::post('/menus', [MenuController::class, 'store'])->name('menus.store');
     Route::get('/menus/{id}/edit', [MenuController::class, 'edit'])->name('menus.edit');
-    Route::put('/menus/{id}/update', [MenuController::class, 'update'])->name('menus.update');
+    Route::put('/menus/{id}', [MenuController::class, 'update'])->name('menus.update');
     Route::delete('/menus/{id}/delete', [MenuController::class, 'destroy'])->name('menus.destroy');
 
     // ✅ Articles
@@ -44,7 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
     Route::post('/articles', [ArticleController::class, 'store'])->name('articles.store');
     Route::get('/articles/{id}/edit', [ArticleController::class, 'edit'])->name('articles.edit');
-    Route::put('/articles/{id}/update', [ArticleController::class, 'update'])->name('articles.update');
+    Route::put('/articles/{id}', [ArticleController::class, 'update'])->name('articles.update');
     Route::delete('/articles/{id}', [ArticleController::class, 'destroy'])->name('articles.destroy');
     Route::get('/articles/{id}/show', [ArticleController::class, 'show'])->name('articles.show');
 
@@ -53,7 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/articleimage/create', [ArticleImageController::class, 'create'])->name('articleimage.create');
     Route::post('/articleimage', [ArticleImageController::class, 'store'])->name('articleimage.store');
     Route::get('/articleimage/{id}/edit', [ArticleImageController::class, 'edit'])->name('articleimage.edit');
-    Route::put('/articleimage/{id}/update', [ArticleImageController::class, 'update'])->name('articleimage.update');
+    Route::put('/articleimage/{id}', [ArticleImageController::class, 'update'])->name('articleimage.update');
     Route::delete('/articleimage/{id}', [ArticleImageController::class, 'destroy'])->name('articleimage.destroy');
 
     // ✅ Contact
@@ -68,18 +69,19 @@ Route::middleware('auth')->group(function () {
     Route::get('/Metatag/Create', [MetatagController::class, 'create'])->name('metatag.create');
     Route::post('/Metatag', [MetatagController::class, 'store'])->name('metatag.store');
     Route::get('/Metatag/{id}/edit', [MetatagController::class, 'edit'])->name('metatag.edit');
-    Route::put('/Metatag/{id}/update', [MetatagController::class, 'update'])->name('metatag.update');
+    Route::put('/Metatag/{id}', [MetatagController::class, 'update'])->name('metatag.update');
     Route::delete('/Metatag/{id}/delete', [MetatagController::class, 'destroy'])->name('metatag.destroy');
 
     // ✅ Banner Ads
     Route::get('/BannerAdds', [BannerAddController::class, 'index'])->name('ads.index');
     Route::post('/Banneradd', [BannerAddController::class, 'store'])->name('ads.store');
     Route::get('/ads/{id}', [BannerAddController::class, 'show'])->name('ads.show');
+    Route::delete('/ads/{id}', [BannerAddController::class, 'destroy'])->name('ads.destroy');
 
     // ✅ Profile
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profile', [UserProfileController::class, 'index'])->name('profile.index');
+    Route::post('/profile/upload', [UserProfileController::class, 'store'])->name('profile.upload');
+    Route::get('/profile/{id}/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile/{id}', [UserProfileController::class, 'update'])->name('profile.update');
+ 
 });
-
-

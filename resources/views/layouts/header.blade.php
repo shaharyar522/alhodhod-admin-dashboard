@@ -67,24 +67,33 @@
         <span class="welcome">Welcome back,</span>
         <span class="name">{{ Auth::user()->name }}</span>
       </div>
-      <img
-        src="https://i.pravatar.cc/40?img=12"
-        alt="Profile Avatar" class="avatar" width="40" height="40" style="border-radius: 50%; object-fit: cover;"
-        data-bs-toggle="modal" data-bs-target="#profileImageModal">
 
 
 
-      
+
+      <!-- Profile Image in Header -->
+      @if(Auth::check() && Auth::user()->profile_image)
+      <img src="{{ asset(Auth::user()->profile_image) }}" alt="Profile Image" width="40" height="40" class="avatar"
+        style="border-radius: 50%; object-fit: cover; border: 2px solid #e2e8f0;">
+      @else
+      <div class="default-icon"
+        style="width: 40px; height: 40px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+        <i class="fas fa-user" style="color: #64748b;"></i>
+      </div>
+      @endif
+
+
+
+
 
       <!-- ✅ DROPDOWN -->
       <div class="profile-dropdown" id="profileDropdown">
-        <a href="{{ route('profile.edit') }}" class="dropdown-item" data-bs-toggle="modal"
-          data-bs-target="#profileImageModal">
+
+        <a href="{{route('profile.index')}}" class="menu-item">
           <i class="fas fa-user"></i>
           <span>My Profile</span>
         </a>
-
-        <a href="#" class="dropdown-item">
+        <a href="" class="dropdown-item">
           <i class="fas fa-key"></i>
           <span>Reset Password</span>
         </a>
