@@ -13,7 +13,7 @@ class MetatagController extends Controller
     public function index()
     {
         $metatags = Metatag::paginate(5);
-        return view('metatag.index',compact('metatags'));
+        return view('metatag.index', compact('metatags'));
     }
 
     /**
@@ -42,8 +42,11 @@ class MetatagController extends Controller
                 'url' => $request->meta_url,
                 'metatag_code' => $request->meta_code,
             ]);
+            return redirect()
+                ->route('metatag.index')
+                ->with('success', 'Metatag created successfully!');
+            // return redirect()->route('metatag.index')->with('success', 'Metatag created successfully!');
 
-            return redirect()->route('metatag.index')->with('success', 'Metatag created successfully!');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'something is rong');
         }
@@ -63,36 +66,36 @@ class MetatagController extends Controller
     public function edit($id)
     {
         $metatags = Metatag::findorFail($id);
-        return view('metatag.edit',compact('metatags'));
+        return view('metatag.edit', compact('metatags'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-         $request->validate([
+        $request->validate([
             'meta_url' => 'required|string|url|max:255|',
             'meta_code' => 'required|string|max:1000',
         ], [
             'meta_url.regex' => 'The url field must be a valid URL.',
         ]);
 
-         try {
-           
-          $metatag = Metatag::findOrFail($id);
+        try {
+
+            $metatag = Metatag::findOrFail($id);
 
             $metatag->update([
                 'url' => $request->meta_url,
                 'metatag_code' => $request->meta_code,
             ]);
 
-            return redirect()->route('metatag.index')->with('success', 'Metatag update successfully!');
+            return redirect()
+                ->route('metatag.index')
+                ->with('success', 'Metatag created successfully!');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'something is rong');
         }
-
-
     }
 
     /**
@@ -100,7 +103,7 @@ class MetatagController extends Controller
      */
     public function destroy($id)
     {
-         Metatag::destroy($id);
-         return redirect()->route('metatag.index')->with('success','Metatag Delete successfully!');
+        Metatag::destroy($id);
+        return redirect()->route('metatag.index')->with('success', 'Metatag Delete successfully!');
     }
 }

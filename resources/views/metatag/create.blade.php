@@ -21,7 +21,7 @@
             <h2>Create New Meta Tag</h2>
         </div>
 
-        <form action="{{ route('metatag.store') }}" method="POST" autocomplete="off" class="page-form">
+        <form action="{{ route('metatag.store') }}" method="POST">
             @csrf
 
             <div class="form-row">
@@ -33,7 +33,7 @@
                         placeholder="https://example.com" value="{{ old('meta_url') }}" required>
 
                     @error('meta_url')
-                        <div class="input-error-message">{{ $message }}</div>
+                    <div class="input-error-message">{{ $message }}</div>
                     @enderror
                 </div>
 
@@ -45,16 +45,15 @@
                         placeholder='<meta name="description" content="...">' value="{{ old('meta_code') }}" required>
 
                     @error('meta_code')
-                        <div class="input-error-message">{{ $message }}</div>
+                    <div class="input-error-message">{{ $message }}</div>
                     @enderror
                 </div>
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="submit-btn" onclick="return confirmCreate()">
+                <button type="submit" class="submit-btn">
                     <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M5 13l4 4L19 7"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>
                     <span>Create Meta Tag</span>
                 </button>
@@ -69,6 +68,7 @@
                 </button>
             </div>
         </form>
+
     </div>
 </div>
 

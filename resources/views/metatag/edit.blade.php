@@ -21,7 +21,7 @@
             <h2>Update Meta Tag</h2>
         </div>
 
-        <form action="{{route('metatag.update',$metatags->id)}}" method="POST" autocomplete="off" class="page-form">
+        <form action="{{route('metatag.update',$metatags->id)}}" method="POST" >
             @csrf
             @method('PUT')
             <div class="form-row">
@@ -52,7 +52,7 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="submit-btn" onclick="return confirmCreate()">
+                <button type="submit" class="submit-btn">
                     <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                     </svg>

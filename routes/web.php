@@ -13,7 +13,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserProfileController;
 use Illuminate\Support\Facades\Route;
 
-// ✅ Custom Login/Logout Routes
+
+
+
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
@@ -65,12 +67,21 @@ Route::middleware('auth')->group(function () {
     Route::get('/ContactMessage', [ContactMessageController::class, 'index'])->name('contact_message.index');
 
     // ✅ Metatags
-    Route::get('/Metatag', [MetatagController::class, 'index'])->name('metatag.index');
-    Route::get('/Metatag/Create', [MetatagController::class, 'create'])->name('metatag.create');
-    Route::post('/Metatag', [MetatagController::class, 'store'])->name('metatag.store');
-    Route::get('/Metatag/{id}/edit', [MetatagController::class, 'edit'])->name('metatag.edit');
-    Route::put('/Metatag/{id}', [MetatagController::class, 'update'])->name('metatag.update');
-    Route::delete('/Metatag/{id}/delete', [MetatagController::class, 'destroy'])->name('metatag.destroy');
+    // Route::get('/Metatag', [MetatagController::class, 'index'])->name('metatag.index');
+    // Route::get('/Metatag/Create', [MetatagController::class, 'create'])->name('metatag.create');
+    // Route::post('/Metatag', [MetatagController::class, 'store'])->name('metatag.store');
+    // Route::get('/Metatag/{id}/edit', [MetatagController::class, 'edit'])->name('metatag.edit');
+    // Route::put('/Metatag/{id}', [MetatagController::class, 'update'])->name('metatag.update');
+    // Route::delete('/Metatag/{id}/delete', [MetatagController::class, 'destroy'])->name('metatag.destroy');
+
+
+    Route::get('/metatag', [MetatagController::class, 'index'])->name('metatag.index');
+    Route::get('/metatag/create', [MetatagController::class, 'create'])->name('metatag.create');
+    Route::post('/metatag', [MetatagController::class, 'store'])->name('metatag.store'); 
+    Route::get('/metatag/{id}/edit', [MetatagController::class, 'edit'])->name('metatag.edit');
+    Route::put('/metatag/{id}', [MetatagController::class, 'update'])->name('metatag.update');
+    Route::delete('/metatag/{id}/delete', [MetatagController::class, 'destroy'])->name('metatag.destroy');
+
 
     // ✅ Banner Ads
     Route::get('/BannerAdds', [BannerAddController::class, 'index'])->name('ads.index');
@@ -83,5 +94,4 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/upload', [UserProfileController::class, 'store'])->name('profile.upload');
     Route::get('/profile/{id}/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/{id}', [UserProfileController::class, 'update'])->name('profile.update');
- 
 });
