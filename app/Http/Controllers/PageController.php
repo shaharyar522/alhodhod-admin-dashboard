@@ -12,7 +12,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        $pages = Page::paginate(5);
+        $pages = Page::orderBy('id', 'DESC')->paginate(5);
         return view('pages.index', compact('pages'));
     }
 
@@ -21,7 +21,7 @@ class PageController extends Controller
      */
     public function create()
     {
-           return view('pages.create');
+        return view('pages.create');
     }
 
     /**
@@ -29,7 +29,10 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-
+        
+        
+        dd($request->all());
+        
         $validated = $request->validate([
             'page_name'     => 'required|string|max:255',
             'page_link'     => 'required|string|max:255|unique:pages,page_link',
@@ -37,7 +40,7 @@ class PageController extends Controller
             'page_french'   => 'required|string',
             'page_arabic'   => 'required|string',
         ]);
-        
+
         Page::create([
             'page_name' => $request->page_name,
             'page_link' => $request->page_link,
@@ -47,7 +50,6 @@ class PageController extends Controller
         ]);
 
         return redirect()->route('pages.index')->with('success', 'Page created successfully!');
-        
     }
 
     /**

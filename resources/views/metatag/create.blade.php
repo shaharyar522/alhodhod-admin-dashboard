@@ -129,9 +129,9 @@
                         Swal.showLoading();
                     }
                 });
-                setTimeout(() => {
+            
                     form.submit();
-                }, 1000);
+               
             }
         });
 
