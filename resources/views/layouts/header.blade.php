@@ -93,10 +93,7 @@
           <i class="fas fa-user"></i>
           <span>My Profile</span>
         </a>
-        <a href="" class="dropdown-item">
-          <i class="fas fa-key"></i>
-          <span>Reset Password</span>
-        </a>
+      
 
         <!-- ✅ Logout Link -->
         <a href="#" class="dropdown-item dropdown-logout"
@@ -110,6 +107,7 @@
           @csrf
         </form>
       </div>
+      
     </div>
 
 

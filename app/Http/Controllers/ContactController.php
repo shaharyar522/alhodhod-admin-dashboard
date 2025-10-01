@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
+use App\Models\ContactUs;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -13,7 +13,7 @@ class ContactController extends Controller
     public function index()
     {
       // Get the first 5 records from DB
-        $contacts = Contact::orderBy('id')->take(5)->get();
+        $contacts = ContactUs::orderBy('id')->take(5)->get();
 
         return view('contact_us.index', compact('contacts'));
     }
@@ -34,7 +34,7 @@ class ContactController extends Controller
     $contacts = $request->input('contacts', []);
 
     // Fetch first 5 from DB
-    $existingContacts = Contact::orderBy('id')->take(5)->get();
+    $existingContacts = ContactUs::orderBy('id')->take(5)->get();
 
     foreach ($contacts as $index => $contactData) {
         if (isset($existingContacts[$index])) {
@@ -42,7 +42,7 @@ class ContactController extends Controller
             $existingContacts[$index]->update($contactData);
         } else {
             // Create new if less than 5 exist
-            Contact::create($contactData);
+            ContactUs::create($contactData);
         }
     }
 
@@ -53,7 +53,7 @@ class ContactController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Contact $contact)
+    public function show(ContactUs $contact)
     {
         //
     }
@@ -61,7 +61,7 @@ class ContactController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Contact $contact)
+    public function edit(ContactUs $contact)
     {
         //
     }
@@ -69,7 +69,7 @@ class ContactController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Contact $contact)
+    public function update(Request $request, ContactUs $contact)
     {
         //
     }
@@ -77,7 +77,7 @@ class ContactController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Contact $contact)
+    public function destroy(ContactUs $contact)
     {
         //
     }

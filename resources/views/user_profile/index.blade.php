@@ -6,9 +6,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
- 
-         <style>
-              /* Main Container */
+
+<style>
+    /* Main Container */
     .pages-container {
         max-width: 1200px;
         margin: 2rem auto;
@@ -193,7 +193,7 @@
     }
 
     /* Action Buttons */
-   
+
 
     /* Pagination */
     .modern-pagination {
@@ -265,216 +265,217 @@
 
     /* Global Action Buttons Styling */
 
-/* Action buttons container */
-.action-buttons {
-    margin-left: 90px;
-    display: flex;
-    gap: 0.5rem;
-    justify-content: flex-start;
-    align-items: center;
-}
-
-/* Enhanced delete button styling */
-.delete-btn {
-    color: #dc2626;
-    background: rgba(220, 38, 38, 0.1);
-    border: 1px solid rgba(220, 38, 38, 0.2);
-    padding: 0.4rem;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 0.15rem;
-    position: relative;
-    overflow: hidden;
-    font-size: 0.65rem;
-    font-weight: 500;
-    width: 42px;
-    height: 42px;
-    cursor: pointer;
-}
-
-.delete-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.1), transparent);
-    transition: 0.5s;
-}
-
-.delete-btn:hover::before {
-    left: 100%;
-}
-
-.delete-btn:hover {
-    background: rgba(220, 38, 38, 0.15);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
-    border-color: rgba(220, 38, 38, 0.3);
-}
-
-.delete-btn:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
-}
-
-.delete-btn svg {
-    width: 14px;
-    height: 14px;
-    transition: all 0.3s ease;
-    z-index: 1;
-    position: relative;
-}
-
-.delete-btn:hover svg {
-    transform: scale(1.1) rotate(5deg);
-    color: #dc2626;
-}
-
-.delete-btn span {
-    display: block;
-    font-size: 0.6rem;
-    line-height: 1;
-    z-index: 1;
-    position: relative;
-    font-weight: 600;
-}
-
-.delete-btn:hover span {
-    color: #dc2626;
-}
-
-/* Edit button enhancement */
-.edit-btn {
-    color: #4f46e5;
-    background: rgba(79, 70, 229, 0.1);
-    border: 1px solid rgba(79, 70, 229, 0.2);
-    padding: 0.4rem;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 0.15rem;
-    position: relative;
-    overflow: hidden;
-    font-size: 0.65rem;
-    font-weight: 500;
-    width: 42px;
-    height: 42px;
-    text-decoration: none;
-}
-
-.edit-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.1), transparent);
-    transition: 0.5s;
-}
-
-.edit-btn:hover::before {
-    left: 100%;
-}
-
-.edit-btn:hover {
-    background: rgba(79, 70, 229, 0.15);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
-    border-color: rgba(79, 70, 229, 0.3);
-}
-
-.edit-btn:active {
-    transform: translateY(0);
-}
-
-.edit-btn svg {
-    width: 14px;
-    height: 14px;
-    transition: all 0.3s ease;
-    z-index: 1;
-    position: relative;
-}
-
-.edit-btn:hover svg {
-    transform: scale(1.1) rotate(-5deg);
-}
-
-.edit-btn span {
-    display: block;
-    font-size: 0.6rem;
-    line-height: 1;
-    z-index: 1;
-    position: relative;
-    font-weight: 600;
-}
-
-/* Form styling */
-.delete-form {
-    margin: 0;
-    padding: 0;
-}
-
-/* Pagination Container */
-.modern-pagination .pagination {
-    display: flex;
-    justify-content: center; /* 👈 Center the pagination */
-    margin: 0 auto;
-    gap: 6px;
-    flex-wrap: wrap;
-    padding: 6px 12px;
-    background: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-
-/* Pagination Links */
-.modern-pagination .page-link {
-    color: #0d6efd;
-    border: none;
-    background-color: #f1f5f9;
-    padding: 0.45rem 0.9rem;
-    font-weight: 500;
-    border-radius: 6px;
-    transition: all 0.2s ease-in-out;
-}
-
-.modern-pagination .page-link:hover {
-    background-color: #0d6efd;
-    color: white;
-}
-
-/* Active Page */
-.modern-pagination .page-item.active .page-link {
-    background-color: #0d6efd;
-    color: #ffffff;
-    font-weight: 600;
-    box-shadow: 0 0 0 2px #cfe2ff;
-}
-
-/* Disabled Page */
-.modern-pagination .page-item.disabled .page-link {
-    background-color: #e2e8f0;
-    color: #6c757d;
-    cursor: not-allowed;
-}
-
-/* Responsive Fix for Small Devices */
-@media (max-width: 576px) {
-    .modern-pagination .pagination {
-        justify-content: center;
+    /* Action buttons container */
+    .action-buttons {
+        margin-left: 90px;
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-start;
+        align-items: center;
     }
-}
-         </style>
+
+    /* Enhanced delete button styling */
+    .delete-btn {
+        color: #dc2626;
+        background: rgba(220, 38, 38, 0.1);
+        border: 1px solid rgba(220, 38, 38, 0.2);
+        padding: 0.4rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 0.15rem;
+        position: relative;
+        overflow: hidden;
+        font-size: 0.65rem;
+        font-weight: 500;
+        width: 42px;
+        height: 42px;
+        cursor: pointer;
+    }
+
+    .delete-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.1), transparent);
+        transition: 0.5s;
+    }
+
+    .delete-btn:hover::before {
+        left: 100%;
+    }
+
+    .delete-btn:hover {
+        background: rgba(220, 38, 38, 0.15);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+        border-color: rgba(220, 38, 38, 0.3);
+    }
+
+    .delete-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
+    }
+
+    .delete-btn svg {
+        width: 14px;
+        height: 14px;
+        transition: all 0.3s ease;
+        z-index: 1;
+        position: relative;
+    }
+
+    .delete-btn:hover svg {
+        transform: scale(1.1) rotate(5deg);
+        color: #dc2626;
+    }
+
+    .delete-btn span {
+        display: block;
+        font-size: 0.6rem;
+        line-height: 1;
+        z-index: 1;
+        position: relative;
+        font-weight: 600;
+    }
+
+    .delete-btn:hover span {
+        color: #dc2626;
+    }
+
+    /* Edit button enhancement */
+    .edit-btn {
+        color: #4f46e5;
+        background: rgba(79, 70, 229, 0.1);
+        border: 1px solid rgba(79, 70, 229, 0.2);
+        padding: 0.4rem;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 0.15rem;
+        position: relative;
+        overflow: hidden;
+        font-size: 0.65rem;
+        font-weight: 500;
+        width: 42px;
+        height: 42px;
+        text-decoration: none;
+    }
+
+    .edit-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(79, 70, 229, 0.1), transparent);
+        transition: 0.5s;
+    }
+
+    .edit-btn:hover::before {
+        left: 100%;
+    }
+
+    .edit-btn:hover {
+        background: rgba(79, 70, 229, 0.15);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+        border-color: rgba(79, 70, 229, 0.3);
+    }
+
+    .edit-btn:active {
+        transform: translateY(0);
+    }
+
+    .edit-btn svg {
+        width: 14px;
+        height: 14px;
+        transition: all 0.3s ease;
+        z-index: 1;
+        position: relative;
+    }
+
+    .edit-btn:hover svg {
+        transform: scale(1.1) rotate(-5deg);
+    }
+
+    .edit-btn span {
+        display: block;
+        font-size: 0.6rem;
+        line-height: 1;
+        z-index: 1;
+        position: relative;
+        font-weight: 600;
+    }
+
+    /* Form styling */
+    .delete-form {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Pagination Container */
+    .modern-pagination .pagination {
+        display: flex;
+        justify-content: center;
+        /* 👈 Center the pagination */
+        margin: 0 auto;
+        gap: 6px;
+        flex-wrap: wrap;
+        padding: 6px 12px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    /* Pagination Links */
+    .modern-pagination .page-link {
+        color: #0d6efd;
+        border: none;
+        background-color: #f1f5f9;
+        padding: 0.45rem 0.9rem;
+        font-weight: 500;
+        border-radius: 6px;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .modern-pagination .page-link:hover {
+        background-color: #0d6efd;
+        color: white;
+    }
+
+    /* Active Page */
+    .modern-pagination .page-item.active .page-link {
+        background-color: #0d6efd;
+        color: #ffffff;
+        font-weight: 600;
+        box-shadow: 0 0 0 2px #cfe2ff;
+    }
+
+    /* Disabled Page */
+    .modern-pagination .page-item.disabled .page-link {
+        background-color: #e2e8f0;
+        color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    /* Responsive Fix for Small Devices */
+    @media (max-width: 576px) {
+        .modern-pagination .pagination {
+            justify-content: center;
+        }
+    }
+</style>
 
 
 
@@ -483,14 +484,15 @@
     <div class="pages-header">
         <h1 class="pages-title">Profile</h1>
         <div class="header-actions">
-           <form id="uploadForm" action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    <label for="fileInput" class="upload-btn">
-        <i class="fas fa-cloud-upload-alt"></i>
-        <span>Upload Profile Image</span>
-    </label>
-    <input type="file" name="image" id="fileInput" accept="image/*" style="display: none;" onchange="submitUploadForm()">
-</form>
+            <form id="uploadForm" action="{{ route('profile.upload') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <label for="fileInput" class="upload-btn">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <span>Upload Profile Image</span>
+                </label>
+                <input type="file" name="image" id="fileInput" accept="image/*" style="display: none;"
+                    onchange="submitUploadForm()">
+            </form>
 
 
 
@@ -507,13 +509,14 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($profiles as $profile) 
+                @foreach($profiles as $profile)
                 <tr>
+
                     <td>
                         <div class="profile-image-cell">
                             <div class="profile-image-container">
-                           @if($profile->profile_image) 
-                                @if($profile->profile_image)
+
+                                @if(!empty($profile->profile_image))
                                 <img src="{{ asset($profile->profile_image) }}" class="profile-image"
                                     alt="Profile Image">
                                 @else
@@ -521,11 +524,7 @@
                                     <i class="fas fa-user"></i>
                                 </div>
                                 @endif
-                            @else 
-                                <div class="default-icon">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                               @endif 
+
                             </div>
                             <div class="page-info">
                                 <div class="page-name"></div>
@@ -534,27 +533,34 @@
                             </div>
                         </div>
                     </td>
+
                     <td>
                         <div class="action-buttons">
-                                <a href="{{route('profile.edit',$profile->id)}}" class="edit-btn">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
-                                    </svg>
-                                    <span>Update</span>
-                                </a>
-                                
-                                <form action="" method="POST" class="delete-form" style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="delete-btn" onclick="confirmDelete(this)">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                        </svg>
-                                        <span>Remove</span>
-                                    </button>
-                                </form>
 
-                            </div>
+                            <a href="{{route('profile.edit',$profile->id)}}" class="edit-btn">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                                    </path>
+                                </svg>
+                                <span>Update</span>
+                            </a>
+
+                            <form action="{{ route('profile.destroy', $profile->id) }}" method="POST"
+                                class="delete-form" style="display: inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="delete-btn">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                        </path>
+                                    </svg>
+                                    <span>Remove</span>
+                                </button>
+                            </form>
+
+                        </div>
                     </td>
                 </tr>
                 @endforeach
@@ -622,5 +628,7 @@
             form.submit(); // Submit only when a file is selected
         }
     }
-</script
+</script>
+
+
 @endsection

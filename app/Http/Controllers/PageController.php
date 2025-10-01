@@ -31,14 +31,14 @@ class PageController extends Controller
     {
         
         
-        dd($request->all());
-        
+        // dd($request->all());
+
         $validated = $request->validate([
-            'page_name'     => 'required|string|max:255',
-            'page_link'     => 'required|string|max:255|unique:pages,page_link',
-            'page_english'  => 'required|string',
-            'page_french'   => 'required|string',
-            'page_arabic'   => 'required|string',
+            'page_name'     => 'required|max:255',
+            'page_link'     => 'required|max:255|unique:pages,page_link',
+            'page_english'  => 'required',
+            'page_french'   => 'required',
+            'page_arabic'   => 'required',
         ]);
 
         Page::create([

@@ -77,7 +77,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/metatag', [MetatagController::class, 'index'])->name('metatag.index');
     Route::get('/metatag/create', [MetatagController::class, 'create'])->name('metatag.create');
-    Route::post('/metatag', [MetatagController::class, 'store'])->name('metatag.store'); 
+    Route::post('/metatag', [MetatagController::class, 'store'])->name('metatag.store');
     Route::get('/metatag/{id}/edit', [MetatagController::class, 'edit'])->name('metatag.edit');
     Route::put('/metatag/{id}', [MetatagController::class, 'update'])->name('metatag.update');
     Route::delete('/metatag/{id}/delete', [MetatagController::class, 'destroy'])->name('metatag.destroy');
@@ -94,4 +94,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/upload', [UserProfileController::class, 'store'])->name('profile.upload');
     Route::get('/profile/{id}/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/{id}', [UserProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile/{id}', [UserProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+
+
+
+    
 });
+

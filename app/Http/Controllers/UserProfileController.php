@@ -32,6 +32,7 @@ class UserProfileController extends Controller
 
     public function store(Request $request)
     {
+        
         $request->validate([
             'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
         ]);
@@ -71,32 +72,32 @@ class UserProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-     public function update(Request $request, string $id)
-{
-    $request->validate([
-        'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
-    ]);
+    public function update(Request $request, string $id)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
 
-    $user_file = User::findOrFail($id);
+        $user_file = User::findOrFail($id);
 
-    if ($request->hasFile('image')) {
-        // Delete old image if it exists
-        if ($user_file->profile_image && file_exists(public_path($user_file->profile_image))) {
-            unlink(public_path($user_file->profile_image));
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists
+            if ($user_file->profile_image && file_exists(public_path($user_file->profile_image))) {
+                unlink(public_path($user_file->profile_image));
+            }
+
+            // Save new image
+            $profile_img = $request->file('image');
+            $fileName = time() . '_' . $profile_img->getClientOriginalName();
+            $profile_img->move(public_path('uploadimage/profile_image'), $fileName);
+
+            $profile_img_path = 'uploadimage/profile_image/' . $fileName;
+            $user_file->profile_image = $profile_img_path;
+            $user_file->save();
         }
 
-        // Save new image
-        $profile_img = $request->file('image');
-        $fileName = time() . '_' . $profile_img->getClientOriginalName();
-        $profile_img->move(public_path('uploadimage/profile_image'), $fileName);
-
-        $profile_img_path = 'uploadimage/profile_image/' . $fileName;
-        $user_file->profile_image = $profile_img_path;
-        $user_file->save();
+        return redirect()->back()->with('success', 'Profile Image Uploaded Successfully!');
     }
-
-    return redirect()->back()->with('success', 'Profile Image Uploaded Successfully!');
-}
 
 
     /**
@@ -104,6 +105,17 @@ class UserProfileController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        // Delete old image if it exists
+        if ($user->profile_image && file_exists(public_path($user->profile_image))) {
+            unlink(public_path($user->profile_image));
+        }
+
+        // Optionally null karo ya pura user delete karo
+        $user->profile_image = null;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profile deleted successfully!');
     }
 }

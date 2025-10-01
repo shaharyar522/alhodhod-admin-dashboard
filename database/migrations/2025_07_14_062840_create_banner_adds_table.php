@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('banner_adds', function (Blueprint $table) {
+        Schema::create('banner_ads', function (Blueprint $table) {
             $table->id();
 
             $table->integer('ad_type')->unsigned()->default(1);
