@@ -65,8 +65,10 @@ class PageController extends Controller
      */
     public function edit($id)
     {
+
         $pages = Page::findOrFail($id);
         return view('pages.edit', compact('pages'));
+        
     }
 
     /**

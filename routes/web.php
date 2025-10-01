@@ -89,6 +89,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/ads/{id}', [BannerAddController::class, 'show'])->name('ads.show');
     Route::delete('/ads/{id}', [BannerAddController::class, 'destroy'])->name('ads.destroy');
 
+
+
+    
+
     // ✅ Profile
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile.index');
     Route::post('/profile/upload', [UserProfileController::class, 'store'])->name('profile.upload');
