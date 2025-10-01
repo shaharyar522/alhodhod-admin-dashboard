@@ -42,8 +42,10 @@
   </div>
 </section>
 
+
    @push('script')
      <script src="{{asset('js/herosection.js')}}"></script>
    @endpush
+   
    
 @endsection

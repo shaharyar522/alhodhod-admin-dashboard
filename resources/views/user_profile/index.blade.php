@@ -492,6 +492,8 @@
                 </label>
                 <input type="file" name="image" id="fileInput" accept="image/*" style="display: none;"
                     onchange="submitUploadForm()">
+
+                    
             </form>
 
 
@@ -559,6 +561,8 @@
                                     <span>Remove</span>
                                 </button>
                             </form>
+
+
 
                         </div>
                     </td>
