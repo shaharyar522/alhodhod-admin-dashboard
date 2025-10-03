@@ -12,7 +12,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-      // Get the first 5 records from DB
+        // Get the first 5 records from DB
         $contacts = ContactUs::orderBy('id')->take(5)->get();
 
         return view('contact_us.index', compact('contacts'));
@@ -30,24 +30,24 @@ class ContactController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $contacts = $request->input('contacts', []);
+    {
+        $contacts = $request->input('contacts', []);
 
-    // Fetch first 5 from DB
-    $existingContacts = ContactUs::orderBy('id')->take(5)->get();
+        // Fetch first 5 from DB
+        $existingContacts = ContactUs::orderBy('id')->take(5)->get();
 
-    foreach ($contacts as $index => $contactData) {
-        if (isset($existingContacts[$index])) {
-            // Update existing record
-            $existingContacts[$index]->update($contactData);
-        } else {
-            // Create new if less than 5 exist
-            ContactUs::create($contactData);
+        foreach ($contacts as $index => $contactData) {
+            if (isset($existingContacts[$index])) {
+                // Update existing record
+                $existingContacts[$index]->update($contactData);
+            } else {
+                // Create new if less than 5 exist
+                ContactUs::create($contactData);
+            }
         }
-    }
 
-    return redirect()->back()->with('success', 'Contacts updated successfully!');
-}
+        return redirect()->back()->with('success', 'Contacts updated successfully!');
+    }
 
 
     /**

@@ -38,9 +38,9 @@ class ArticleImageController extends Controller
             if ($request->hasFile('image')) {
                 $article_image = $request->file('image');
                 $article_image_OriginalName = time() . '_' . $article_image->getClientOriginalName();
-                $article_image->move(public_path('articlesimages/article_image'), $article_image_OriginalName);
+                $article_image->move(public_path('uploads/articles_images'), $article_image_OriginalName);
 
-                $article_image_path = 'articlesimages/article_image/' .  $article_image_OriginalName;
+                $article_image_path = 'uploads/articles_images/' .  $article_image_OriginalName;
             }
 
             // ab main store karo ga data ko database main 
@@ -99,8 +99,8 @@ class ArticleImageController extends Controller
 
                 $article_image = $request->file('image');
                 $article_image_OriginalName = time() . '_' . $article_image->getClientOriginalName();
-                $article_image->move(public_path('articlesimages/article_image'), $article_image_OriginalName);
-                $article_image_path = 'articlesimages/article_image/' .  $article_image_OriginalName;
+                $article_image->move(public_path('uploads/articles_images'), $article_image_OriginalName);
+                $article_image_path = 'uploads/articles_images/' .  $article_image_OriginalName;
             }
 
             // ab main update karo ga data ko database main 

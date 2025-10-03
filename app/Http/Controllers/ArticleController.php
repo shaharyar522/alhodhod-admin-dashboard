@@ -58,9 +58,9 @@ class ArticleController extends Controller
             if ($request->hasFile('article_image')) {
                 $article_image = $request->file('article_image');
                 $article_image_OriginalName = time() . '_' . $article_image->getClientOriginalName();
-                $article_image->move(public_path('uploadimage/article_image'), $article_image_OriginalName);
+                $article_image->move(public_path('uploads/articles'), $article_image_OriginalName);
 
-                $article_image_path = 'uploadimage/article_image/' .  $article_image_OriginalName;
+                $article_image_path = 'uploads/articles/' .  $article_image_OriginalName;
             }
 
 
@@ -140,9 +140,9 @@ class ArticleController extends Controller
                 
                 $article_image = $request->file('article_image');
                 $article_image_OriginalName = time() . '_' . $article_image->getClientOriginalName();
-                $article_image->move(public_path('uploadimage/article_image'), $article_image_OriginalName);
+                $article_image->move(public_path('uploads/articles'), $article_image_OriginalName);
 
-                $article_image_path = 'uploadimage/article_image/' .  $article_image_OriginalName;
+                $article_image_path = 'uploads/articles/' .  $article_image_OriginalName;
             }
 
 

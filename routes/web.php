@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BannerAddController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ContactMessageController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MetatagController;
 use App\Http\Controllers\PageController;
@@ -60,8 +61,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/articleimage/{id}', [ArticleImageController::class, 'destroy'])->name('articleimage.destroy');
 
     // ✅ Contact
-    Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
-    Route::post('/contacts/store', [ContactController::class, 'store'])->name('contacts.store');
+    Route::get('/contact', [ContactUsController::class, 'index'])->name('contact.index');
+    Route::post('/contacts/store', [ContactUsController::class, 'store'])->name('contacts.store');
 
     // ✅ Contact Messages
     Route::get('/ContactMessage', [ContactMessageController::class, 'index'])->name('contact_message.index');
@@ -91,7 +92,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-    
+
 
     // ✅ Profile
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile.index');
@@ -99,11 +100,4 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{id}/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/{id}', [UserProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile/{id}', [UserProfileController::class, 'destroy'])->name('profile.destroy');
-
-
-
-
-
-    
 });
-

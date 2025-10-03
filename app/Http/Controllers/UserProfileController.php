@@ -116,6 +116,6 @@ class UserProfileController extends Controller
         $user->profile_image = null;
         $user->save();
 
-        return redirect()->back()->with('success', 'Profile deleted successfully!');
+        return redirect()->back()->with('success','profile deleted successfully!');
     }
 }

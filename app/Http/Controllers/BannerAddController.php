@@ -60,7 +60,7 @@ class BannerAddController extends Controller
         if ($request->hasFile('ad_image')) {
             $img = $request->file('ad_image');
             $fileName = time() . '_' . $img->getClientOriginalName();
-            $path = 'uploadimage/bannerimage/';
+            $path = 'uploads/banner_image/';
             $img->move(public_path($path), $fileName);
             $finalAdUrl = $path . $fileName; // store image path in `ad_url`
         } elseif ($request->filled('ad_url')) {
