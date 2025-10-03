@@ -6,23 +6,26 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     /**
      * Run the migrations.
      */
+
     public function up(): void
     {
         Schema::create('articles', function (Blueprint $table) {
-             $table->id();
-            $table->string('lang'); // en, fr, ar
-            $table->string('article_title');
-            $table->string('metatag')->nullable();
-            $table->string('article_slug')->unique();
-            $table->string('article_image')->nullable();
-            $table->longText('content'); // This will store HTML from the rich text editor
-            $table->boolean('show_on_home_page')->default(false);
-            $table->unsignedBigInteger('menu_id')->nullable();
+            $table->id(); // bigint unsigned auto_increment
+            $table->string('lang', 40)->nullable(); // varchar(40), nullable
+            $table->string('article_title', 255);   // varchar(255), not null
+            $table->string('article_slug', 255)->unique(); // unique varchar(255)
+            $table->string('article_image', 255)->nullable(); // varchar(255), nullable
+            $table->text('content'); // text (64KB limit, same as your DB, not longText)
+            $table->integer('show_on_home_page')->default(0); // int(11), default 0
+            $table->unsignedBigInteger('menu_id')->nullable(); // bigint unsigned, nullable
 
-            $table->timestamps();
+            $table->timestamps(); // created_at, updated_at
+
+            // foreign key
 
             $table->foreign('menu_id')->references('id')->on('menus')->cascadeOnDelete();
         });
@@ -35,4 +38,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('articles');
     }
+
 };

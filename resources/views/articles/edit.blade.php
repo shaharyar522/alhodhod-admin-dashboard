@@ -17,13 +17,15 @@
             @method('PUT')
 
             <div class="form-row">
+
                 <div class="form-group">
                     <label for="language">Language</label>
                     <select name="language" id="language" class="form-input" required>
                         <option value="">-- Select Language --</option>
-                        <option value="en" {{ $article->language == 'en' ? 'selected' : '' }}>English</option>
-                        <option value="fr" {{ $article->language == 'fr' ? 'selected' : '' }}>French</option>
-                        <option value="ar" {{ $article->language == 'ar' ? 'selected' : '' }}>Arabic</option>
+                        <option value="en" {{ $article->lang == 'en' ? 'selected' : '' }}>English</option>
+                        <option value="fr" {{ $article->lang == 'fr' ? 'selected' : '' }}>French</option>
+                        <option value="ar" {{ $article->lang == 'ar' ? 'selected' : '' }}>Arabic</option>
+
                     </select>
                     @error('language') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
@@ -36,12 +38,14 @@
             </div>
 
             <div class="form-row">
+
                 <div class="form-group">
-                    <label for="metatag">Meta Tag</label>
-                    <input type="text" id="metatag" name="metatag" value="{{ $article->metatag }}" class="form-input"
-                        placeholder="Meta tag, SEO keywords">
-                    @error('metatag') <small class="text-danger">{{ $message }}</small> @enderror
+                    <label for="article_slug">Article Slug</label>
+                    <input type="text" id="article_slug" name="article_slug" class="form-input"
+                        value="{{ old('article_slug', $article->article_slug) }}">
+                    @error('article_slug') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
+
                 <div class="form-group">
                     <label for="article_image">Upload Image</label>
                     <input type="file" id="article_image" name="article_image" class="form-input" accept="image/*">
@@ -120,13 +124,14 @@
                 </a>
             </div>
         </form>
+
     </div>
 </div>
 @endsection
 
 @section('scripts')
 
- <script>
+<script>
     // Initialize CKEditor
     let editor = CKEDITOR.replace('editor_full', {
         height: 400,
@@ -260,7 +265,7 @@
 
 
 <style>
-     .image-preview-wrapper img {
+    .image-preview-wrapper img {
         width: 120px;
         height: 120px;
         object-fit: cover;

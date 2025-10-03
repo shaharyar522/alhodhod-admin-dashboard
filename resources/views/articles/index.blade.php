@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="{{ asset('styling/pages.css') }}">
 
 <div class="pages-container">
+
+
     <!-- Header Section -->
     <div class="pages-header">
         <h1 class="pages-title">Articles</h1>
@@ -18,36 +20,37 @@
     </div>
 
     <!-- Table Section -->
+
     <div class="pages-table-container">
         <div class="table-responsive">
             <table class="pages-table">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Article Title</th>
-                        <th>Menus Id</th>
                         <th>Language</th>
+                        <th>Article Title</th>
                         <th>Article Slug</th>
                         <th>Show Home</th>
                         <th>Actions</th>
-                        {{-- es main bakie jo haon wo rhay gye hian th es mainj
-
-                        rhay gy hian wo metaag hian or ua ka bad content hian or iamges h aritlce ki--}}
+                        {{-- es main bakie jo haon wo rhay gye hian th es mainj rhay gy hian wo metaag hian or ua ka bad
+                        content hian or iamges h aritlce ki--}}
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($articles as $article)
                     <tr>
                         <td> {{ $article->id }}</td>
-                        <td> {{ $article->article_title }}</td>
-                        <td> {{ $article->menu_id }}</td>
                         <td> {{ $article->lang }}</td>
+                        <td> {{ $article->article_title }}</td>
                         <td> {{ $article->article_slug }}</td>
-                        <td>
+                        <td> {{ $article->show_on_home_page }}</td>
+                        {{-- <td> {{ $article->content }}</td> --}}
+                        {{-- <td>
                             <span class="{{ $article->show_on_home_page ? 'text-green-600' : 'text-gray-500' }}">
                                 {{ $article->show_on_home_page ? 'Yes' : 'No' }}
                             </span>
-                        </td>
+                        </td> --}}
+
                         <td>
                             <div class="action-buttons">
                                 <a href="{{route('articles.edit',$article->id)}}" class="edit-btn">
@@ -87,6 +90,8 @@
             </div>
         </div>
     </div>
+
+
 </div>
 
 <!-- Delete Confirmation Script -->

@@ -35,12 +35,15 @@
 
             <div class="form-row">
                 <div class="form-group">
+
                     <label for="language_select">Language</label>
                     <select name="language" id="language_select" class="form-input" required>
+
                         <option value="">-- Select Language --</option>
                         <option value="en" {{ old('language')=='en' ? 'selected' : '' }}>English</option>
                         <option value="fr" {{ old('language')=='fr' ? 'selected' : '' }}>French</option>
                         <option value="ar" {{ old('language')=='ar' ? 'selected' : '' }}>Arabic</option>
+
                     </select>
                     @error('language') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
@@ -55,11 +58,12 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="metatag">Meta Tag</label>
-                    <input type="text" id="metatag" name="metatag" class="form-input"
-                        placeholder="Meta tag, SEO keywords" value="{{old('metatag')}}">
-                    @error('metatag') <small class="text-danger">{{ $message }}</small> @enderror
+                    <label for="article_slug">Article Slug</label>
+                    <input type="text" id="article_slug" name="article_slug" class="form-input"
+                        placeholder="article-slug-example" value="{{ old('article_slug') }}">
+                    @error('article_slug') <small class="text-danger">{{ $message }}</small> @enderror
                 </div>
+
 
                 <div class="form-group">
                     <label for="article_image">Upload Image</label>
@@ -99,6 +103,7 @@
                         <label for="show_on_home" style="font-weight: normal; margin: 0;">Yes</label>
                     </div>
                 </div>
+
             </div>
 
             <div class="form-row">
@@ -128,13 +133,16 @@
                 </button>
             </div>
         </form>
+
+        
     </div>
 </div>
 
-{{-- ==== start sweet alert message first asekd and secnd proces and third is successs message and last if without fill the form
- then  show message error --}}
+{{-- ==== start sweet alert message first asekd and secnd proces and third is successs message and last if without fill
+the form
+then show message error --}}
 <script>
-document.querySelector('form').addEventListener('submit', function (e) {
+    document.querySelector('form').addEventListener('submit', function (e) {
     e.preventDefault(); // Stop form submission
     const form = this;
     const requiredFields = form.querySelectorAll('[required]');
@@ -201,9 +209,9 @@ document.querySelector('form').addEventListener('submit', function (e) {
 </script>
 
 
-  {{-- Show SweetAlert success message after redirect --}}
+{{-- Show SweetAlert success message after redirect --}}
 @if (session('success'))
-  <script>
+<script>
     Swal.fire({
             icon: 'success',
             title: 'Success!',
@@ -212,10 +220,11 @@ document.querySelector('form').addEventListener('submit', function (e) {
             timer: 2000,
             background: '#f0f8ff'
         });
-  </script>
+</script>
 @endif
-{{-- ==== End sweet alert message first asekd and secnd proces and third is successs message and last if without fill the form
- then  show message error --}}
+{{-- ==== End sweet alert message first asekd and secnd proces and third is successs message and last if without fill
+the form
+then show message error --}}
 
 
 
@@ -261,22 +270,23 @@ document.querySelector('form').addEventListener('submit', function (e) {
 {{-- =================== Start artilce image preview code =================== --}}
 <style>
     /* Add this to your page-form.css */
-.image-preview-wrapper {
-    margin-top: 10px;
-}
+    .image-preview-wrapper {
+        margin-top: 10px;
+    }
 
-.image-preview-wrapper img {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    display: none; /* Hidden by default */
-}
+    .image-preview-wrapper img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        display: none;
+        /* Hidden by default */
+    }
 </style>
 @push('article-image-prview')
 <script>
-   document.getElementById('article_image').addEventListener('change', function (event) {
+    document.getElementById('article_image').addEventListener('change', function (event) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
