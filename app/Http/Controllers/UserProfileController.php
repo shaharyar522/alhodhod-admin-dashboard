@@ -14,8 +14,8 @@ class UserProfileController extends Controller
      */
     public function index()
     {
-        $profiles = User::get();
-        return view('user_profile.index', compact('profiles'));
+        $user = Auth::user(); // get only the logged-in user
+        return view('user_profile.index', compact('user'));
     }
 
     /**
@@ -32,22 +32,25 @@ class UserProfileController extends Controller
 
     public function store(Request $request)
     {
-        
+
         $request->validate([
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            // 'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+             'image' => 'required',
         ]);
 
         if ($request->hasFile('image')) {
             $profile_img = $request->file('image');
             $fileName = time() . '_' . $profile_img->getClientOriginalName();
-            $profile_img->move(public_path('uploadimage/profile_image'), $fileName);
+            $profile_img->move(public_path('uploads/profile_image'), $fileName);
 
-            $profile_img_path = 'uploadimage/profile_image/' . $fileName;
+            $profile_img_path = 'uploads/profile_image/' . $fileName;
 
             // ✅ Update only logged-in user's image
-            User::where('id', 1)->update([
+
+            User::where('id' , Auth::id())->update([
                 'profile_image' => $profile_img_path,
             ]);
+
         }
 
         return redirect()->back()->with('success', 'Profile Image Uploaded Successfully!');
@@ -89,9 +92,9 @@ class UserProfileController extends Controller
             // Save new image
             $profile_img = $request->file('image');
             $fileName = time() . '_' . $profile_img->getClientOriginalName();
-            $profile_img->move(public_path('uploadimage/profile_image'), $fileName);
+            $profile_img->move(public_path('uploads/profile_image'), $fileName);
 
-            $profile_img_path = 'uploadimage/profile_image/' . $fileName;
+            $profile_img_path = 'uploads/profile_image/' . $fileName;
             $user_file->profile_image = $profile_img_path;
             $user_file->save();
         }
@@ -116,6 +119,6 @@ class UserProfileController extends Controller
         $user->profile_image = null;
         $user->save();
 
-        return redirect()->back()->with('success','profile deleted successfully!');
+        return redirect()->back()->with('success', 'profile deleted successfully!');
     }
 }

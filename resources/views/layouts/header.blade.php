@@ -63,24 +63,30 @@
     <!-- ✅ Profile Dropdown Section -->
 
     <div class="profile" id="profileContainer">
-      <div class="profile-info" id="profileToggle">
-        <span class="welcome">Welcome back,</span>
+      <div class="profile-info" id="profileToggle"> 
+  
         <span class="name">{{ Auth::user()->name }}</span>
+
+
+        <!-- Profile Image in Header -->
+        @if(Auth::check() && Auth::user()->profile_image)
+        <img src="{{ asset(Auth::user()->profile_image) }}" alt="Profile Image" width="40" height="40" class="avatar"
+          style="border-radius: 50%; object-fit: cover; border: 2px solid #e2e8f0;">
+        @else
+        <div class="default-icon"
+          style="width: 40px; height: 40px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
+          <i class="fas fa-user" style="color: #64748b;"></i>
+        </div>  
+
+
+
+        @endif
       </div>
 
 
 
 
-      <!-- Profile Image in Header -->
-      @if(Auth::check() && Auth::user()->profile_image)
-      <img src="{{ asset(Auth::user()->profile_image) }}" alt="Profile Image" width="40" height="40" class="avatar"
-        style="border-radius: 50%; object-fit: cover; border: 2px solid #e2e8f0;">
-      @else
-      <div class="default-icon"
-        style="width: 40px; height: 40px; border-radius: 50%; background: #f1f5f9; display: flex; align-items: center; justify-content: center;">
-        <i class="fas fa-user" style="color: #64748b;"></i>
-      </div>
-      @endif
+
 
 
 
@@ -93,7 +99,7 @@
           <i class="fas fa-user"></i>
           <span>My Profile</span>
         </a>
-      
+
 
         <!-- ✅ Logout Link -->
         <a href="#" class="dropdown-item dropdown-logout"
@@ -107,7 +113,7 @@
           @csrf
         </form>
       </div>
-      
+
     </div>
 
 

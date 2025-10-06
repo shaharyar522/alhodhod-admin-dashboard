@@ -510,65 +510,50 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach($profiles as $profile)
-                <tr>
-
-                    <td>
-                        <div class="profile-image-cell">
-                            <div class="profile-image-container">
-
-                                @if(!empty($profile->profile_image))
-                                <img src="{{ asset($profile->profile_image) }}" class="profile-image"
-                                    alt="Profile Image">
-                                @else
-                                <div class="default-icon">
-                                    <i class="fas fa-user"></i>
-                                </div>
-                                @endif
-
-                            </div>
-                            <div class="page-info">
-                                <div class="page-name"></div>
-                                <div class="page-link"></div>
-                                <div class="page-id"></div>
-                            </div>
+          <tbody>
+    <tr>
+        <td>
+            <div class="profile-image-cell">
+                <div class="profile-image-container">
+                    @if(!empty($user->profile_image))
+                        <img src="{{ asset($user->profile_image) }}" class="profile-image" alt="Profile Image">
+                    @else
+                        <div class="default-icon">
+                            <i class="fas fa-user"></i>
                         </div>
-                    </td>
+                    @endif
+                </div>
+            </div>
+        </td>
 
-                    <td>
-                        <div class="action-buttons">
+        <td>
+            <div class="action-buttons">
+                <a href="{{ route('profile.edit', $user->id) }}" class="edit-btn">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
+                        </path>
+                    </svg>
+                    <span>Update</span>
+                </a>
 
-                            <a href="{{route('profile.edit',$profile->id)}}" class="edit-btn">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z">
-                                    </path>
-                                </svg>
-                                <span>Update</span>
-                            </a>
+                <form action="{{ route('profile.destroy', $user->id) }}" method="POST" class="delete-form" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="delete-btn">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                            </path>
+                        </svg>
+                        <span>Remove</span>
+                    </button>
+                </form>
+            </div>
+        </td>
+    </tr>
+</tbody>
 
-                            <form action="{{ route('profile.destroy', $profile->id) }}" method="POST"
-                                class="delete-form" style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="delete-btn">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
-                                        </path>
-                                    </svg>
-                                    <span>Remove</span>
-                                </button>
-                            </form>
-
-
-
-                        </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
         </table>
 
 
