@@ -78,7 +78,7 @@ class UserProfileController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+            'image' => 'required',
         ]);
 
         $user_file = User::findOrFail($id);

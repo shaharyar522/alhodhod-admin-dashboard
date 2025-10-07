@@ -4,6 +4,7 @@
             <i class="fa-solid fa-mosque floating-icon"></i>
             <i class="fa-solid fa-dove floating-icon brand-icon"></i>
         </div>
+        
         <span>Alhodhod</span>
     </div>
     <ul class="nav">

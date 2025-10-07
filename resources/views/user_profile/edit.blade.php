@@ -215,110 +215,59 @@
 </style>
 
 <div class="profile-edit-container">
-    <!-- Profile Header -->
     <div class="profile-edit-header">
         <h1 class="profile-edit-title">Update Profile Image</h1>
         <p class="profile-edit-subtitle">Upload a new image for your profile</p>
     </div>
 
     <!-- Current Profile Image -->
-    <div class="profile-image-edit-container">
+    <div class="profile-image-edit-container" id="currentImageContainer">
         @if($user_imgs->profile_image)
-        <img src="{{ asset($user_imgs->profile_image) }}" class="profile-image-edit" alt="Profile Image">
+            <img src="{{ asset($user_imgs->profile_image) }}" class="profile-image-edit" alt="Profile Image">
         @else
-        <div class="default-icon-edit">
-            <i class="fas fa-user"></i>
-        </div>
+            <div class="default-icon-edit">
+                <i class="fas fa-user"></i>
+            </div>
         @endif
     </div>
 
-    <!-- Update Button -->
-    <button class="update-image-btn" id="showUploadFormBtn">
-        <i class="fas fa-camera"></i>
-        Update Profile Image
-    </button>
-
-    <!-- Upload Form (Hidden by default) -->
-    <form class="upload-form-edit" id="uploadForm" action="{{route('profile.update',$user_imgs->id)}}" method="POST"
-        enctype="multipart/form-data">
+    <!-- Form -->
+    <form id="updateImageForm" action="{{ route('profile.update', $user_imgs->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
-        <div class="file-input-wrapper-edit">
-            <label class="file-input-label-edit" id="fileInputLabel">
-                <i class="fas fa-cloud-upload-alt"></i> Choose New Image
-                <input type="file" name="profile_image" id="profileImageInput" accept="image/*">
-            </label>
-        </div>
+        <input type="file" name="image" id="profileImageInput" accept="image/*" style="display:none;">
 
-        <!-- Image preview -->
-        <img id="imagePreview" class="image-preview-edit" src="#" alt="Preview">
-
-        <div class="form-actions-edit">
-            <button type="button" class="cancel-btn-edit" id="cancelUploadBtn">
-                Cancel
-            </button>
-            <button type="submit" class="submit-btn-edit" id="uploadBtn" disabled>
-                Save Changes
-            </button>
-        </div>
+        <!-- ONE BUTTON -->
+        <button type="button" class="update-image-btn" id="triggerFileSelect">
+            <i class="fas fa-camera"></i> Update Profile Image
+        </button>
     </form>
 
-    <!-- Status Message -->
+    <!-- Success message -->
     @if (session('success'))
-    <div class="status-message-edit success-edit">
-        <i class="fas fa-check-circle"></i> {{ session('success') }}
-    </div>
-    @endif
-
-    @if (session('error'))
-    <div class="status-message-edit error-edit">
-        <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
-    </div>
+        <div class="status-message-edit success-edit">
+            <i class="fas fa-check-circle"></i> {{ session('success') }}
+        </div>
     @endif
 </div>
 
 <script>
-    // DOM Elements
-    const showUploadFormBtn = document.getElementById('showUploadFormBtn');
-    const uploadForm = document.getElementById('uploadForm');
-    const cancelUploadBtn = document.getElementById('cancelUploadBtn');
-    const profileImageInput = document.getElementById('profileImageInput');
-    const imagePreview = document.getElementById('imagePreview');
-    const uploadBtn = document.getElementById('uploadBtn');
-    const fileInputLabel = document.getElementById('fileInputLabel');
+    const fileInput = document.getElementById('profileImageInput');
+    const triggerBtn = document.getElementById('triggerFileSelect');
+    const form = document.getElementById('updateImageForm');
 
-    // Toggle upload form visibility
-    showUploadFormBtn.addEventListener('click', function() {
-        uploadForm.style.display = 'block';
-        this.style.display = 'none';
-    });
+    // When user clicks the button → open file dialog
+    triggerBtn.addEventListener('click', () => fileInput.click());
 
-    cancelUploadBtn.addEventListener('click', function() {
-        uploadForm.style.display = 'none';
-        showUploadFormBtn.style.display = 'inline-flex';
-        profileImageInput.value = '';
-        imagePreview.style.display = 'none';
-        uploadBtn.disabled = true;
-        fileInputLabel.innerHTML = `<i class="fas fa-cloud-upload-alt"></i> Choose New Image`;
-    });
-
-    // Image preview functionality
-    profileImageInput.addEventListener('change', function(e) {
-        if (e.target.files && e.target.files[0]) {
-            const reader = new FileReader();
-            
-            reader.onload = function(event) {
-                imagePreview.src = event.target.result;
-                imagePreview.style.display = 'block';
-                uploadBtn.disabled = false;
-                fileInputLabel.innerHTML = `<i class="fas fa-check-circle"></i> Image Selected`;
-            };
-            
-            reader.readAsDataURL(e.target.files[0]);
+    // When user selects an image → auto-submit the form
+    fileInput.addEventListener('change', () => {
+        if (fileInput.files.length > 0) {
+            form.submit();
         }
     });
 </script>
+
 
 <!-- Include SweetAlert2 for beautiful alerts -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

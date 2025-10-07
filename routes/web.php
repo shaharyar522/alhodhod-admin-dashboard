@@ -96,7 +96,7 @@ Route::middleware('auth')->group(function () {
 
     // ✅ Profile
     Route::get('/profile', [UserProfileController::class, 'index'])->name('profile.index');
-    Route::post('/profile/upload', [UserProfileController::class, 'store'])->name('profile.upload');
+    Route::post('/profile/upload', [UserProfileController::class, 'store'])->name('profile.store');
     Route::get('/profile/{id}/edit', [UserProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile/{id}', [UserProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile/{id}', [UserProfileController::class, 'destroy'])->name('profile.destroy');
